@@ -2,9 +2,8 @@
 #include <NPK.h>
 #include <LiquidCrystal_I2C.h>
 
-SoftwareSerial espSerial(3, 2); // RX, TX
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
+SoftwareSerial espSerial(3, 2); // RX, TX;
+extern LiquidCrystal_I2C lcd;
 void setup() {
   Serial.begin(115200);
   espSerial.begin(9600);

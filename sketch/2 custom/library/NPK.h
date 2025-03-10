@@ -17,6 +17,7 @@ class DataPack {
       RESPONSE = 0x00,
       BLINK    = 0x01,
       LCD      = 0x02,
+      GO       = 0x03,
     };
 
     enum class ArgType : uint8_t {

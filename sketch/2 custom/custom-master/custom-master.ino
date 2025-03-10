@@ -3,8 +3,8 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "Nepike";
-const char* password = "123453119670";
+const char* ssid = "Nopike";
+const char* password = "11111111";
 
 ESP8266WebServer server(80);
 
@@ -50,8 +50,12 @@ void handleCommand() {
   if (strcmp(cmd, "go") == 0) {
     uint8_t direction = args[0];
     uint8_t speed = args[1];
-    uint8_t time = args[2];
-    // Реализация команды "go"
+    uint16_t time = args[2];
+    DataPack pack(DataPack::Command::GO);
+    pack.append_arg(direction);
+    pack.append_arg(speed);
+    pack.append_arg(time);
+    sendPack(pack);
     server.send(200, "text/plain", "GO command executed");
   }
   else if (strcmp(cmd, "lcd") == 0) {
@@ -61,6 +65,7 @@ void handleCommand() {
     sendPack(pack);
     server.send(200, "text/plain", "LCD command sent");
   }
+  
   else {
     server.send(404, "text/plain", "Command not found");
   }

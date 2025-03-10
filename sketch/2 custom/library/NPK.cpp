@@ -1,6 +1,8 @@
 #include "NPK.h"
 #include <LiquidCrystal_I2C.h>
 
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 
 uint16_t DataPack::calculate_crc(const uint8_t* data, size_t data_size){
 	CRC16 crc;
@@ -263,18 +265,77 @@ DataPack DataPack::perform_command() {
 			delay(1000);
 			digitalWrite(LED_BUILTIN, LOW);
 			delay(1000);
+			break;
 		}
 		case Command::LCD: {
-			extern LiquidCrystal_I2C lcd;
 			lcd.clear();
 			lcd.setCursor(0,0);
 			auto arg = get_next_val<const char*>();
 			lcd.print(arg);
+			break;
+		}
+		case Command::GO: {
+			int IN1 = 9;
+			int IN2 = 8;
+			int IN3 = 7; 
+			int IN4 = 6; 
+			int EN1 = 10; 
+			int EN2 = 5; 
+			uint8_t direction = get_next_val<uint8_t>();
+			uint8_t speed = get_next_val<uint8_t>();
+			uint16_t time = get_next_val<uint16_t>();
+		
+
+			switch(direction) {
+				case 1 : {
+					digitalWrite (IN2, HIGH); 
+					digitalWrite (IN1, LOW); 
+					digitalWrite (IN4, HIGH); 
+					digitalWrite (IN3, LOW);
+					break;
+				}
+				case 2:{
+					digitalWrite (IN1, HIGH); 
+					digitalWrite (IN2, LOW); 
+					digitalWrite (IN3, HIGH); 
+					digitalWrite (IN4, LOW);
+					break;
+				}
+				case 3:{
+					digitalWrite (IN1, HIGH); 
+					digitalWrite (IN2, LOW); 
+					digitalWrite (IN4, HIGH); 
+					digitalWrite (IN3, LOW);
+					break;
+				}
+				case 4:{
+					digitalWrite (IN2, HIGH); 
+					digitalWrite (IN1, LOW); 
+					digitalWrite (IN3, HIGH); 
+					digitalWrite (IN4, LOW);
+					break;
+				}
+				default: {return response;}
+			}
+
+			analogWrite(EN1, speed); 
+			analogWrite(EN2, speed);
+
+			long l = millis();
+			while (true) {
+				if (millis() - l > time) {
+					break;
+				}
+			}
+			analogWrite (EN1, 0); 
+			analogWrite (EN2, 0);
+			break;
 		}
 		default: {
 			return response;
 		};
 	}
+	return response;
 }
 
 
