@@ -34,7 +34,9 @@ class DataPack {
     DataPack(Command command);
 
 		//Десериализует сырые данные
+    explicit DataPack(HardwareSerial& serial);
     explicit DataPack(SoftwareSerial& serial);
+    
 
     DataPack(const DataPack&) = delete;
     DataPack& operator=(const DataPack&) = delete;

@@ -29,6 +29,22 @@ void sendPack(const DataPack& pack) {
   espBlink();
 }
 
+DataPack receiveResponse() {
+  unsigned long startTime = millis();
+  while (Serial.available() < 2) { // Ждем начало передачи пакета
+    if (millis() - startTime > 1000) { // Таймаут в 1 секунду
+      Serial.println("Response timeout");
+      return DataPack(DataPack::Command::RESPONSE);
+    }
+  }
+
+  DataPack pack(Serial);
+  if (!pack.is_valid()) {
+    Serial.println("Invalid response received");
+  }
+  return pack;
+}
+
 void handleCommand() {
   if (server.method() != HTTP_POST) {
     server.send(405, "text/plain", "Method Not Allowed");
@@ -56,7 +72,12 @@ void handleCommand() {
     pack.append_arg(speed);
     pack.append_arg(time);
     sendPack(pack);
-    server.send(200, "text/plain", "GO command executed");
+    DataPack response = receiveResponse();
+    if (response.is_valid()) {
+      server.send(200, "application/json", "{\"status\": \"success\"}");
+    } else {
+      server.send(500, "application/json", "{\"status\": \"error\"}");
+    }
   }
   else if (strcmp(cmd, "lcd") == 0) {
     String data = args[0];
@@ -69,6 +90,7 @@ void handleCommand() {
   else {
     server.send(404, "text/plain", "Command not found");
   }
+
 }
 
 void setup() {

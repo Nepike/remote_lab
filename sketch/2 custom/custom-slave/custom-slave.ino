@@ -19,7 +19,11 @@ void loop() {
     
     if (pack.is_valid()) {
       Serial.println("\nValid packet received!");
-      pack.perform_command();
+      DataPack response = pack.perform_command();
+      uint8_t* data = response.get_serialized_data();
+      size_t size = response.get_serialized_size();
+      espSerial.write(data, size);
+      free(data);
     }
   }
 }
