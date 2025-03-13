@@ -35,7 +35,6 @@ class DataPack {
     DataPack(Command command);
 
 		//Десериализует сырые данные
-    explicit DataPack(HardwareSerial& serial);
     explicit DataPack(SoftwareSerial& serial);
     
 
@@ -66,6 +65,7 @@ class DataPack {
 
     bool is_valid() const;
     template<typename T> T get_next_val();
+    size_t get_args_count() const;
     
 	private:
     Command command_;

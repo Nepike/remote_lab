@@ -18,11 +18,15 @@ void loop() {
     DataPack pack(espSerial);
     
     if (pack.is_valid()) {
-      Serial.println("\nValid packet received!");
       DataPack response = pack.perform_command();
       uint8_t* data = response.get_serialized_data();
       size_t size = response.get_serialized_size();
-      espSerial.write(data, size);
+      if (response.is_valid() && response.get_args_count()) {
+        // Serial.println(response.get_next_val<const char*>());
+        espSerial.write(data, size);
+        espSerial.flush();
+      }
+      
       free(data);
     }
   }

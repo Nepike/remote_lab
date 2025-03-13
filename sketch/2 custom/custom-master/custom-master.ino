@@ -2,9 +2,15 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
+#include <SoftwareSerial.h>
 
-const char* ssid = "Nopike";
-const char* password = "11111111";
+#define RX_PIN 3
+#define TX_PIN 1
+
+SoftwareSerial nanoSerial(RX_PIN, TX_PIN);
+
+const char* ssid = "Nepike";
+const char* password = "123453119670";
 
 ESP8266WebServer server(80);
 
@@ -24,7 +30,7 @@ void sendPack(const DataPack& pack) {
   uint8_t* data = pack.get_serialized_data();
   size_t size = pack.get_serialized_size();
   
-  Serial.write(data, size);
+  nanoSerial.write(data, size);
   free(data);
   espBlink();
 }
@@ -32,20 +38,15 @@ void sendPack(const DataPack& pack) {
 DataPack receiveResponse() {
   unsigned long startTime = millis();
   
-  while (Serial.available() < 2) { // Ждем начало передачи пакета
+  while (nanoSerial.available() < 2) { // Ждем начало передачи пакета
     if (millis() - startTime > 1000) { // Таймаут в 1 секунду
-      Serial.println("Response timeout");
       DataPack pack0 = DataPack(DataPack::Command::RESPONSE);
       pack0.append_arg("RESPONSE TIMEOUT!");
       return pack0;
     }
   }
-  DataPack pack(Serial);
+  DataPack pack(nanoSerial);
 
-  
-  if (!pack.is_valid()) {
-    Serial.println("Invalid response received");
-  }
   return pack;
 }
 
@@ -112,8 +113,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
-  Serial.begin(9600);
-  while (!Serial);
+   nanoSerial.begin(9600);
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
