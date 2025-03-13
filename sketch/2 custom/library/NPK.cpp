@@ -359,6 +359,18 @@ DataPack DataPack::perform_command() {
 			lcd.print(arg);
 			break;
 		}
+		case Command::GETRANGE: {
+			int max_length = 0; //надо померить
+			int min_length = 1023; //надо померить
+			int S1 = 6;
+			int sig = analogRead(S1);
+			sig = map(sig, 0, 1023,max_length, min_length);
+			sig = 9;
+			String s = String(sig);
+			response.append_arg(s.c_str());
+
+			break;
+		}
 		case Command::GO: {
 			int IN1 = 9;
 			int IN2 = 8;
@@ -369,7 +381,12 @@ DataPack DataPack::perform_command() {
 			uint8_t direction = get_next_val<uint8_t>();
 			uint8_t speed = get_next_val<uint8_t>();
 			uint16_t time = get_next_val<uint16_t>();
-		
+
+			analogWrite (EN1, 0); 
+			analogWrite (EN2, 0);
+			if (time == 0) {
+				break;
+			}
 
 			switch(direction) {
 				case 1 : {
@@ -379,21 +396,21 @@ DataPack DataPack::perform_command() {
 					digitalWrite (IN3, LOW);
 					break;
 				}
-				case 2:{
+				case 3: {
 					digitalWrite (IN1, HIGH); 
 					digitalWrite (IN2, LOW); 
 					digitalWrite (IN3, HIGH); 
 					digitalWrite (IN4, LOW);
 					break;
 				}
-				case 3:{
+				case 4: {
 					digitalWrite (IN1, HIGH); 
 					digitalWrite (IN2, LOW); 
 					digitalWrite (IN4, HIGH); 
 					digitalWrite (IN3, LOW);
 					break;
 				}
-				case 4:{
+				case 2: {
 					digitalWrite (IN2, HIGH); 
 					digitalWrite (IN1, LOW); 
 					digitalWrite (IN3, HIGH); 
@@ -405,6 +422,10 @@ DataPack DataPack::perform_command() {
 
 			analogWrite(EN1, speed); 
 			analogWrite(EN2, speed);
+
+			if (time == 1) {
+				break;
+			}
 
 			long l = millis();
 			while (true) {

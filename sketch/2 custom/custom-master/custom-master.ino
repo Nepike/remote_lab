@@ -31,14 +31,18 @@ void sendPack(const DataPack& pack) {
 
 DataPack receiveResponse() {
   unsigned long startTime = millis();
+  
   while (Serial.available() < 2) { // Ждем начало передачи пакета
     if (millis() - startTime > 1000) { // Таймаут в 1 секунду
       Serial.println("Response timeout");
-      return DataPack(DataPack::Command::RESPONSE);
+      DataPack pack0 = DataPack(DataPack::Command::RESPONSE);
+      pack0.append_arg("RESPONSE TIMEOUT!");
+      return pack0;
     }
   }
-
   DataPack pack(Serial);
+
+  
   if (!pack.is_valid()) {
     Serial.println("Invalid response received");
   }
@@ -72,12 +76,7 @@ void handleCommand() {
     pack.append_arg(speed);
     pack.append_arg(time);
     sendPack(pack);
-    DataPack response = receiveResponse();
-    if (response.is_valid()) {
-      server.send(200, "application/json", "{\"status\": \"success\"}");
-    } else {
-      server.send(500, "application/json", "{\"status\": \"error\"}");
-    }
+    server.send(200, "application/json", "{\"status\": \"success\"}");
   }
   else if (strcmp(cmd, "lcd") == 0) {
     String data = args[0];
@@ -85,6 +84,22 @@ void handleCommand() {
     pack.append_arg(data.c_str());
     sendPack(pack);
     server.send(200, "text/plain", "LCD command sent");
+  }
+  else if (strcmp(cmd, "getrange") == 0) {
+    String data = args[0];
+    DataPack pack(DataPack::Command::GETRANGE);
+    sendPack(pack);
+
+    DataPack response = receiveResponse();
+    if (response.is_valid()) {
+      auto s = response.get_next_val<const char*>();
+      DataPack pack1(DataPack::Command::LCD);
+      pack1.append_arg(s);
+      sendPack(pack1);
+      server.send(200,"text/plain", s);
+    } else {
+      server.send(500, "application/json", "{\"status\": \"error\"}");
+    }
   }
   
   else {

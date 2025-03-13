@@ -18,53 +18,112 @@
 
 <script>
 $(document).ready(function () {
-    $(document).on('keydown', function (event) {
-        let args = null;
-        let direction;
+    let pressedKeys = {
+        'ArrowUp': false,
+        'ArrowRight': false,
+        'ArrowDown': false,
+        'ArrowLeft': false
+    };
 
-        // Обработка клавиш
+    function handleKeyAction(event, isKeyDown) {
+        let direction;
+        
+        // Определяем направление только для стрелок
         switch (event.key) {
-            case 'ArrowUp': // Стрелка вверх
+            case 'ArrowUp':
                 direction = "1";
                 break;
-            case 'ArrowRight': // Стрелка вправо
+            case 'ArrowRight':
                 direction = "2";
                 break;
-            case 'ArrowDown': // Стрелка вниз
+            case 'ArrowDown':
                 direction = "3";
                 break;
-            case 'ArrowLeft': // Стрелка влево
+            case 'ArrowLeft':
                 direction = "4";
                 break;
             default:
-                return; // Игнорировать другие клавиши
+                return;
         }
 
-        event.preventDefault(); // Отключаем стандартное поведение браузера
+        event.preventDefault();
 
-        // Проверка наличия IP в форме
-        const ip = $('#id_ip').val();
-        if (!ip) {
-            alert('Пожалуйста, введите IP-адрес');
+        // Для keydown: проверяем, что клавиша еще не была нажата
+        if (isKeyDown) {
+            if (pressedKeys[event.key]) return;
+            pressedKeys[event.key] = true;
+        } 
+        // Для keyup: сбрасываем флаг
+        else {
+            pressedKeys[event.key] = false;
             return;
         }
 
-        // Отправка AJAX-запроса
+        // Проверка IP
+        const ip = $('#id_ip').val();
+        if (!ip) {
+            alert('Пожалуйста, введите IP-адрес');
+            pressedKeys[event.key] = false;
+            return;
+        }
+
         $.ajax({
-            url: '{% url "send_command" %}', // URL маршрута Django
+            url: '{% url "send_command" %}',
             type: 'POST',
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 ip: ip,
                 command: 'go',
-                args: direction + ",255,500" // Передаем аргументы
+                args: direction + ",255,1"
             },
             dataType: 'json',
             success: function (response) {
-                console.log('Ответ от сервера:', response);
+                console.log('Успешный запрос:', response);
             },
             error: function (xhr, status, error) {
-                console.error('Ошибка:', error);
+                console.error('Ошибка запроса:', error);
+                pressedKeys[event.key] = false;
+            }
+        });
+
+
+        
+    }
+
+    // Обработчики событий
+    $(document).on('keydown', function (e) {
+        handleKeyAction(e, true);
+    });
+
+    $(document).on('keyup', function (e) {
+        const ip = $('#id_ip').val();
+        if (!ip) {
+            alert('Пожалуйста, введите IP-адрес');
+            pressedKeys[event.key] = false;
+            return;
+        }
+        pressedKeys = {
+            'ArrowUp': false,
+            'ArrowRight': false,
+            'ArrowDown': false,
+            'ArrowLeft': false
+        }
+        $.ajax({
+            url: '{% url "send_command" %}',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                ip: ip,
+                command: 'go',
+                args: "1,255,0"
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log('Успешный запрос:', response);
+            },
+            error: function (xhr, status, error) {
+                console.error('Ошибка запроса:', error);
+                pressedKeys[event.key] = false;
             }
         });
     });

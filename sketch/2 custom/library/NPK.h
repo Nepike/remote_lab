@@ -18,6 +18,7 @@ class DataPack {
       BLINK    = 0x01,
       LCD      = 0x02,
       GO       = 0x03,
+      GETRANGE = 0X04,
     };
 
     enum class ArgType : uint8_t {
@@ -64,6 +65,7 @@ class DataPack {
     DataPack perform_command();
 
     bool is_valid() const;
+    template<typename T> T get_next_val();
     
 	private:
     Command command_;
@@ -74,7 +76,7 @@ class DataPack {
     mutable size_t current_payload_index_; 
     bool is_valid_;
 
-    template<typename T> T get_next_val();
+    
 };
 
 // Шаблонные "перегрузки" get_next_val()
