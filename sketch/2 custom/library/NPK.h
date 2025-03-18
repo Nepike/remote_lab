@@ -19,6 +19,7 @@ class DataPack {
       LCD      = 0x02,
       GO       = 0x03,
       GETRANGE = 0X04,
+      GETSPEED = 0X05,
     };
 
     enum class ArgType : uint8_t {

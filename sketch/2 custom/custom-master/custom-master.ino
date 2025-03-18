@@ -102,6 +102,23 @@ void handleCommand() {
       server.send(500, "application/json", "{\"status\": \"error\"}");
     }
   }
+  else if (strcmp(cmd, "getspeed") == 0) {
+    uint8_t data = args[0];
+    DataPack pack(DataPack::Command::GETSPEED);
+    pack.append_arg(data);
+    sendPack(pack);
+
+    DataPack response = receiveResponse();
+    if (response.is_valid()) {
+      auto s = response.get_next_val<const char*>();
+      DataPack pack1(DataPack::Command::LCD);
+      pack1.append_arg(s);
+      sendPack(pack1);
+      server.send(200,"text/plain", s);
+    } else {
+      server.send(500, "application/json", "{\"status\": \"error\"}");
+    }
+  }
   
   else {
     server.send(404, "text/plain", "Command not found");
