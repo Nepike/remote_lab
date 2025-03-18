@@ -9,8 +9,8 @@
 
 SoftwareSerial nanoSerial(RX_PIN, TX_PIN);
 
-const char* ssid = "Nepike";
-const char* password = "123453119670";
+const char* ssid = "Nopike";
+const char* password = "11111111";
 
 ESP8266WebServer server(80);
 
