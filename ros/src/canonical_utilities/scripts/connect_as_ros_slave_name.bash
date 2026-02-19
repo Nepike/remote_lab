@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+MASTER_HOSTNAME=$1
+MY_HOSTNAME=$2
+
+export ROS_MASTER_URI=http://${MASTER_HOSTNAME}:11311
+export ROS_HOSTNAME=${MY_HOSTNAME}

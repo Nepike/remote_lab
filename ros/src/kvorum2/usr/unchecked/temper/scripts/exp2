@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#--fb  0.2
+#--em  0.2
+#--ex  1
+#--inhibit 10
+#--time 500
+#--log filename
+
+#--need_food 80
+#--need_comfort 40
+#--need_save 60
+
+
+TIMELIM=5000
+
+# Разные fb
+#for fb in 0.05 0.1 0.2 0.3 0.4 0.5
+#do
+#  ./gbprun --time $TIMELIM  --fb $fb --log ~/tmp/log_fb_$fb
+#  sleep 5
+#done
+
+# Разные em
+for em in 0.05 0.1 0.2 0.3 0.4 0.5
+do
+  ./run --time $TIMELIM  --em $em --log ~/tmp/log_em_$em
+  sleep 5
+done

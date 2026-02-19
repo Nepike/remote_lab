@@ -1,0 +1,213 @@
+*********************************************************************************
+*
+* 1. Требуемые пакеты
+*
+*********************************************************************************
+
+# Joystick
+sudo apt-get install joystick
+sudo apt-get install ros-noetic-joy
+sudo apt-get install ros-noetic-robot-state-publisher
+
+# Плагины для модели
+sudo apt-get install ros-noetic-hector-gazebo
+
+
+*********************************************************************************
+*
+* .bashrc
+*
+*********************************************************************************
+
+export GAZEBO_MODEL_PATH=$ROSDIR/src/gmod/models:$GAZEBO_MODEL_PATH
+
+
+*********************************************************************************
+*
+*
+*********************************************************************************
+Запуск прикладных скриптов с перенаправлением топика
+
+1. Джойстик:
+roslaunch rctl joy.launch
+
+2. Прикладные скрипты
+Для mobot_du:
+rosrun rctl yy.py cmd_vel:=/mobot1/cmd_vel
+rosrun rctl ctl1.py cmd_vel:=/mobot1/cmd_vel
+
+Для mobot_dx:
+rosrun rctl yy.py cmd_vel:=/mobot/cmd_vel
+rosrun rctl ctl1.py cmd_vel:=/mobot/cmd_vel
+
+
+Или добавить в launch
+  <!-- Джойстик  -->
+  <include file="$(find mobot_du)/launch/joy.launch" />
+
+  <!-- Управление -->
+  <node name="rctl_node" pkg="rctl" type="ctl1.py" 
+  args=""
+  />
+
+3. Посмотреть камеру
+--------------------------------------------------------------------------------
+
+Если хочется посмотреть, что будет в результате обработки макросов xacro
+
+Исходные файлы:  model.urdf.xacro, macros.xacro
+Выход: model.urdf
+model.urdf.xacro + macros.xacro => model.urdf
+
+$rosrun xacro xacro -o model.urdf model.urdf.xacro
+
+================================================================
+
+mobot_dx:
+~~~~~~~~
+https://habr.com/ru/articles/467241/
+https://habr.com/ru/articles/467665/
+
+roslaunch rosbots_description rviz.launch
+==========================================================================================
+
+rosrun rqt_tf_tree rqt_tf_tree
+
+rqt:
+~~~
+Plugins->Visualization-> Image View -> Topic: /camera1/image_raw
+
+gz topic -l
+
+*********************************************************************************
+*
+* mobot_du
+*
+*********************************************************************************
+Запуск:
+~~~~~~~
+roslaunch mobot_du start.launch
+rosrun turtlesim turtle_teleop_key /turtle1/cmd_vel:=/mobot1/cmd_vel
+rqt
+
+Описание:
+~~~~~~~~~
+Катается.
+Камера есть.
+
+Топики:
+~~~~~~~
+
+$rostopic list
+...
+/mobot1/camera1/camera_info
+/mobot1/camera1/image_raw
+/mobot1/camera1/image_raw/compressed
+...
+/mobot1/cmd_vel
+/mobot1/imu/data
+/mobot1/sensors/usonic_center
+...
+/odom
+/rosout
+/rosout_agg
+/tf
+
+------------------------------------------------------------------------------------
+
+rostopic echo /mobot1/imu/data
+    orientation: ориентация робота по осям x, y, z и w.
+    angular_velocity: угловая скорость робота.
+    linear_acceleration: линейное ускорение.
+
+Текущий угол поворота
+orientation.z
+
+ImuSensor
+
+http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html
+sensor_msgs/Imu Message
+
+geometry_msgs/Quaternion orientation
+
+geometry_msgs/Quaternion Message
+# This represents an orientation in free space in quaternion form.
+float64 x
+float64 y
+float64 z
+float64 w
+-------------------------------------------------------------------------------------------
+Прочие топики:
+$gz topic -l
+
+/gazebo/default/atmosphere
+/gazebo/default/diagnostics
+/gazebo/default/factory
+/gazebo/default/factory/light
+/gazebo/default/gui
+...
+/gazebo/default/physics
+/gazebo/default/physics/contacts
+
+================================================================================================
+Ссылки:
+
+https://classic.gazebosim.org/tutorials?tut=ros_gzplugins
+
+Примеры launch-файлов
+https://answers.ros.org/question/315010/spawn-three-different-custom-robots-in-a-launch-file/
+
+
+https://itnan.ru/post.php?c=2&p=281760
+https://wiki.ros.org/rplidar
+https://answers.ros.org/question/240501/problem-using-a-lidar-sensor-in-gazebo/
+
+
+https://habr.com/ru/articles/472984/
+https://habr.com/ru/articles/560856/
+https://habr.com/ru/articles/399827/
+
+https://amperka.ru/blogs/projects/abot-robot-part-2
+
+OpenSLAM: для которого в ROS есть готовый пакет — gmapping.
+
+GMapping is a highly efficient Rao-Blackwellized particle filer to learn grid maps from laser range data.
+https://openslam-org.github.io/
+
+Type of Map: grid maps
+
+Recently Rao-Blackwellized particle filters have been introduced as effective means to solve the simultaneous localization and mapping (SLAM) problem. This approach uses a particle filter in which each particle carries an individual map of the environment. Accordingly, a key question is how to reduce the number of particles. We present adaptive techniques to reduce the number of particles in a Rao- Blackwellized particle filter for learning grid maps. We propose an approach to compute an accurate proposal distribution taking into account not only the movement of the robot but also the most recent observation. This drastically decrease the uncertainty about the robot's pose in the prediction step of the filter. Furthermore, we apply an approach to selectively carry out re-sampling operations which seriously reduces the problem of particle depletion.
+
+https://ru.wikipedia.org/wiki/GIMP
+GNU Image Manipulation Program или GIMP («Гимп») — свободно распространяемый растровый графический редактор, программа для создания и обработки растровой графики и частичной поддержкой работы с векторной графикой.
+================================================================================================
+
+
+https://answers.ros.org/question/403943/ros2-foxygazebo-cant-make-the-libgazebo_ros_bumper-plugin-work/
+
+<gazebo reference="front_bumper">
+    <sensor name=front_bumper_sensor" type="contact">
+        <update_rate>10.0</update_rate>
+        <contact>
+            <!-- These collision names need to match the names used in the generated -->
+            <!-- SDF, not the urdf names or this still won't work! -->
+            <collision>front_bumper_collision</collision>
+        </contact>
+        <plugin name="bumper_plugin" filename="libgazebo_ros_bumper.so">
+            <ros>
+                <namespace>demo</namespace>
+                <remapping>bumper_states:=bumper_demo</remapping>
+            </ros>
+        </plugin>
+    </sensor>
+</gazebo>
+
+    <collision name="front_bumper_collision">
+        <geometry>
+            <box size="0.03 0.400 0.03"/>
+        </geometry>
+    </collision>
+
+--------------------------------------------------------------
+Пути:
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__))+"/../lib")

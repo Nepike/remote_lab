@@ -1,0 +1,223 @@
+<?xml version='1.0'?>
+<!--
+
+  Макросы для модели мира
+  01.12.2023
+  LP 01.03.2024
+  
+-->
+
+<model xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobot">
+
+<!-- ======================================================================= -->
+<!-- Куб                                                                     -->
+<!-- ======================================================================= -->
+<xacro:macro name="box2" params="x y">
+  <xacro:box3 size="${SimpleBoxSize}" x="${x}" y="${y}"/>
+</xacro:macro>
+
+<xacro:macro name="box3" params="size x y">
+  <model name="simplebox3_${x}_${y}">
+    <pose>${x} ${y} ${size/2} 0 0 0</pose>
+    <static>true</static>
+    <link name='simplebox3_link'>
+        <collision name='simplebox3_collision'>
+        <geometry><box><size>${size} ${size} ${size}</size></box></geometry>
+        <max_contacts>10</max_contacts>
+        <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+        </surface>
+        </collision>
+        <visual name="simplebox3_visual">
+            <geometry><box><size>${size} ${size} ${size}</size></box></geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+    </link>
+  </model>
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Цилиндр                                                                 -->
+<!-- ======================================================================= -->
+<xacro:macro name="cyl2" params="x y">
+  <model name='cylinder_${x}_${y}'>
+    <link name='cylinder_link'>
+    <pose>0 0 0.115 0 -0 0</pose>
+    <!--
+    <inertial>
+        <mass>0.39</mass>
+        <inertia>
+        <ixx>0.00058</ixx>
+        <ixy>0</ixy>
+        <ixz>0</ixz>
+        <iyy>0.00058</iyy>
+        <iyz>0</iyz>
+        <izz>0.00019</izz>
+        </inertia>
+        <pose>0 0 0 0 -0 0</pose>
+    </inertial>
+    -->
+    <collision name='cylinder_collision'>
+        <geometry><cylinder><radius>${CylRadius}</radius><length>${CylLength}</length></cylinder></geometry>
+        <max_contacts>10</max_contacts>
+        <surface>
+        <contact><ode/></contact>
+        <bounce/>
+        <friction>
+            <torsional><ode/></torsional>
+            <ode/>
+        </friction>
+        </surface>
+    </collision>
+    <visual name='cylinder_visual'>
+        <geometry><cylinder><radius>${CylRadius}</radius><length>${CylLength}</length></cylinder></geometry>
+    </visual>
+    <self_collide>0</self_collide>
+    <enable_wind>0</enable_wind>
+    <kinematic>0</kinematic>
+    </link>
+    <pose>${x} ${y} ${CylLength/2} 0 0 0</pose>
+  </model>
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Пятно                                                                   -->
+<!-- ======================================================================= -->
+<xacro:macro name="spot2" params="x y">
+  <model name='spot_${x}_${y}'>
+    <pose>${x} ${y} 0 0 0 0</pose>
+    <static>true</static>
+    <link name='spot_link'>
+    <visual name='spot_visual'>
+        <geometry><cylinder><radius>${SpotRadius}</radius><length>0.001</length></cylinder></geometry>
+    </visual>
+    </link>
+  </model>
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Куб с числовым маркером                                                 -->
+<!-- ======================================================================= -->
+<xacro:macro name="numeringbox" params="anum size x y">
+  <model name='numeringbox_${anum}_${x}_${y}'>
+    <static>true</static>
+    <link name='numeringbox_link_${anum}'>
+        <collision name='numeringbox_collision_${anum}'>
+            <geometry><box><size>${size} ${size} ${size}</size></box></geometry>
+        </collision>
+        <visual name='numeringbox_visual_${anum}'>
+            <geometry><box><size>${size} ${size} ${size}</size></box></geometry>
+            <material>
+            <script>
+                <uri>model://numering_markers/materials/scripts/numering_marker.material</uri>
+                <uri>model://numering_markers/textures/${anum}.png</uri>
+                <name>numering_marker_${anum}</name>
+            </script>
+            </material>
+        </visual>
+    </link>
+    <pose>${x} ${y} ${size/2} 0 0 0</pose>
+  </model> 
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Куб с ArUco-маркером                                                    -->
+<!-- ======================================================================= -->
+<xacro:macro name="arucobox2" params="anum artype x y">
+  <model name='arucobox_${anum}_${x}_${y}'>
+    <static>true</static>
+    <link name='arucobox_link_${anum}'>
+        <collision name='arucobox_collision_${anum}'>
+            <geometry><box><size>${ArucoBoxSize} ${ArucoBoxSize} ${ArucoBoxSize}</size></box></geometry>
+        </collision>
+        <visual name='arucobox_visual_${anum}'>
+            <geometry><box><size>${ArucoBoxSize} ${ArucoBoxSize} ${ArucoBoxSize}</size></box></geometry>
+            <material>
+            <script>
+                <uri>model://aruco_markers/materials/scripts</uri>
+                <uri>model://aruco_markers/textures${artype}/${anum}.png</uri>
+                <name>aruco_marker_${anum}</name>
+            </script>
+            </material>
+        </visual>
+    </link>
+    <pose>${x} ${y} ${ArucoBoxSize/2} 0 0 0</pose>
+  </model> 
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Куб с ArUco-маркером, но с указанием координаты z                       -->
+<!-- ======================================================================= -->
+<xacro:macro name="arucobox3" params="anum artype x y z">
+  <model name='arucobox3_${anum}_${x}_${y}_${z}'>
+    <static>true</static>
+    <link name='arucobox_link_${anum}'>
+        <collision name='arucobox_collision_${anum}'>
+            <geometry><box><size>${ArucoBoxSize} ${ArucoBoxSize} ${ArucoBoxSize}</size></box></geometry>
+        </collision>
+        <visual name='arucobox_visual_${anum}'>
+            <geometry><box><size>${ArucoBoxSize} ${ArucoBoxSize} ${ArucoBoxSize}</size></box></geometry>
+            <material>
+            <script>
+                <uri>model://aruco_markers/materials/scripts</uri>
+                <uri>model://aruco_markers/textures${artype}/${anum}.png</uri>
+                <name>aruco_marker_${anum}</name>
+            </script>
+            </material>
+        </visual>
+    </link>
+    <pose>${x} ${y} ${ArucoBoxSize/2+z} 0 0 0</pose>
+  </model> 
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Куб с ArUco-маркером на подставке                                       -->
+<!-- ======================================================================= -->
+<xacro:macro name="arucotower" params="anum artype x y">
+  <xacro:numeringbox anum="${anum}" size="${SimpleBoxSize}" x="${x}" y="${y}"/>
+  <xacro:arucobox3 anum="${anum}" artype="${artype}" x="${x}" y="${y}" z="${SimpleBoxSize}"/>
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Стена                                                                   -->
+<!-- ======================================================================= -->
+<xacro:macro name="wall" params="wlen x y a">
+  <model name="wall_${x}_${y}_${a}_${wlen}">
+    <pose>${x} ${y} ${WallHeight/2} 0 0 ${a*PI/180}</pose>
+    <static>true</static>
+    <link name='link'>
+        <collision name='collision'>
+        <geometry><box><size>${wlen} ${WallWidth} ${WallHeight}</size></box></geometry>
+        <max_contacts>10</max_contacts>
+        <surface>
+            <contact><ode/></contact>
+            <bounce/>
+            <friction><torsional><ode/></torsional><ode/></friction>
+        </surface>
+        </collision>
+        <visual name="visual">
+            <geometry><box><size>${wlen} ${WallWidth} ${WallHeight}</size></box></geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+    </link>
+  </model>
+</xacro:macro>
+
+<!-- ======================================================================= -->
+<!-- Манеж (загон)                                                           -->
+<!-- ======================================================================= -->
+
+<xacro:macro name="manege" params="x1 y1 x2 y2">
+  <xacro:wall x="${x2-(x2-x1)/2}" y="${y2}" a = "0" wlen="${x2-x1}"/>
+  <xacro:wall x="${x2-(x2-x1)/2}" y="${y1}" a = "0" wlen="${x2-x1}"/>
+  <xacro:wall x="${x2}" y="${y2-(y2-y1)/2}" a = "270" wlen="${y2-y1}"/>
+  <xacro:wall x="${x1}" y="${y2-(y2-y1)/2}" a = "270" wlen="${y2-y1}"/>
+</xacro:macro>
+
+</model>

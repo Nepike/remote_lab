@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Blueman Applet
+Comment=Blueman Bluetooth Manager
+Icon=blueman
+Exec=/home/ubuntu/progs/startup/start.sh
+Terminal=false
+Type=Application
+Categories=
+X-Ubuntu-Gettext-Domain=blueman

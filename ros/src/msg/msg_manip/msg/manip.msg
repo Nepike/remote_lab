@@ -1,0 +1,12 @@
+Header header
+string command
+int32 manip_id
+int32 x
+int32 y
+int32 z
+int8 catch_stat
+int8 chain_num
+int32 ang_val
+int32 itter_num
+int32 dist
+uint32  sleep_time

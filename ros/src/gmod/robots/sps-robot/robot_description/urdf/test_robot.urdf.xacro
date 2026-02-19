@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="test_robot" >
+  
+  <xacro:property name="body_len" value="0.3"/>
+  <xacro:property name="body_width" value="0.2"/>
+  <xacro:property name="body_height" value="0.1"/>
+  <xacro:property name="wheel_radius" value="0.05"/>
+  <xacro:property name="wheel_width" value="0.01"/>
+  
+  <!-- Параметры дальномера -->
+  <xacro:property name="rf_pos_x" value="0.1"/>
+  <xacro:property name="rf_pos_z" value="0.12"/>
+  <xacro:property name="rf_size" value="0.01"/>
+  <xacro:property name="field_of_view" value=".072"/>
+  <xacro:property name="update_rate" value="5"/>
+  <xacro:property name="ray_count" value="1"/>
+  <xacro:property name="min_range_default" value=".1"/>
+  <xacro:property name="max_range_default" value=".7"/>
+    
+  <!-- Параметры ArUco-маркера -->
+  <xacro:property name="marker_size" value="0.05"/>
+  <xacro:property name="marker_pos_x" value="0.0"/>
+  <xacro:property name="marker_pos_z" value="0.2"/>
+  
+  <link name="base_link" />
+
+  <joint name="zero_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="body_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body_link">
+    <visual>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}" />
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <material name="gray">
+	    <color rgba="0.3 0.3 0.3 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}" />
+      </geometry>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+    </inertial>
+  </link>
+  <gazebo reference="body_link">
+    <material>Gazebo/Gray</material>
+  </gazebo>
+  
+  <xacro:macro name="wheel" params="name dx dy">
+    <link name="${name}_link">
+        <visual>
+        <geometry>
+            <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+        </geometry>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+        <material name="black">
+            <color rgba="0 0 0 1"/>
+        </material>
+        </visual>
+        <collision>
+        <geometry>
+            <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+        </geometry>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+        <mass value="0.1"/>
+        <inertia izz="1e-5" ixy="0.0" ixz="0.0" ixx="1e-5" iyz="0.0" iyy="1e-5"/>
+        </inertial>
+    </link>
+    <joint name="${name}_j" type="continuous">
+        <origin xyz="${dx} ${dy} 0" rpy="0 0 0"/>
+        <parent link="body_link"/>
+        <axis xyz="0 1 0"/>
+        <child link="${name}_link"/>
+    </joint>
+    
+    <transmission name="${name}_transm">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${name}_j">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${name}_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    <gazebo reference="${name}_link">
+      <material>Gazebo/Black</material>
+    </gazebo>
+  </xacro:macro>
+  
+  <xacro:wheel name="lwheel" dx="0.1" dy="0.12"  />
+  <xacro:wheel name="rwheel" dx="0.1" dy="-0.12"  />
+  
+  <link name="caster_link">
+    <visual>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia izz="1e-5" ixy="0.0" ixz="0.0" ixx="1e-5" iyz="0.0" iyy="1e-5"/>
+    </inertial>
+  </link>  
+  <gazebo reference="caster_link">
+    <material>Gazebo/Black</material>
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+ </gazebo>
+  
+  <joint name="caster_j" type="fixed">
+    <origin xyz="-0.1 0 -0.03" rpy="0 0 0"/>
+    <parent link="body_link"/>
+    <child link="caster_link"/>
+  </joint>
+
+
+  <!-- Поворотный дальномер -->
+  
+  <xacro:macro name="rf" params="link dx dy dz Yaw">
+    <link name="${link}">
+        <visual>
+        <geometry>
+            <box size="${rf_size} ${rf_size} ${rf_size}"/>
+        </geometry>
+        <material name="green">
+            <color rgba="0 1 0 1"/>
+        </material>
+        </visual>
+        <collision>
+        <geometry>
+            <box size="${rf_size} ${rf_size} ${rf_size}"/>
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.001"/>
+        <inertia izz="1e-6" ixy="0.0" ixz="0.0" ixx="1e-6" iyz="0.0" iyy="1e-6"/>
+        </inertial>
+    </link> 
+    <joint name="${link}_j" type="revolute">
+        <origin xyz="${dx} ${dy} ${dz}" rpy="0 0 ${Yaw}"/>
+        <parent link="body_link"/>
+        <child link="${link}"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="30" velocity="10" lower="${-pi/2}" upper="${pi/2}" />
+    </joint>
+    
+    <transmission name="${link}_transm">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${link}_j">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${link}_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+
+    <gazebo reference="${link}">
+        <material>Gazebo/Green</material>
+        <sensor type="ray" name="rf_link_sensor">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <ray>
+            <scan>
+            <horizontal>
+                <samples>${ray_count}</samples>
+                <resolution>1</resolution>
+                <min_angle>-${field_of_view/2}</min_angle>
+                <max_angle> ${field_of_view/2}</max_angle>
+            </horizontal>
+            <vertical>
+                <samples>${ray_count}</samples>
+                <resolution>1</resolution>
+                <min_angle>-${field_of_view/2}</min_angle>
+                <max_angle> ${field_of_view/2}</max_angle>
+            </vertical>
+            </scan>
+            <range>
+            <min>${min_range_default}</min>
+            <max>${max_range_default}</max>
+            <resolution>0.01</resolution>
+            </range>
+        </ray>
+
+        <plugin name="gazebo_ros_sonar_controller" filename="libhector_gazebo_ros_sonar.so">
+            <updateRate>${update_rate}</updateRate>
+            <gaussianNoise>0.005</gaussianNoise>
+            <topicName>${link}/rf_data</topicName>
+            <frameId>${link}</frameId>
+        </plugin>
+        </sensor>
+    </gazebo>
+  </xacro:macro>
+  
+  <xacro:rf link="rf_link" dx="${rf_pos_x}" dy="0" dz="${rf_pos_z}" Yaw="0" />
+  
+  
+  <!-- ArUco-маркер на кубе -->
+  
+  <xacro:macro name="aruco_cube" params="material_name dx dy dz Yaw">
+  
+    <material name="${material_name}">
+        <texture filename="package://test_robot_description/media/materials/textures/${material_name}.png"/>
+    </material>
+    
+  
+   <link name="${material_name}_marker_link">
+        <visual>
+        <geometry>
+            <box size="${marker_size} ${marker_size} ${marker_size}"/>
+        </geometry>
+        <!--origin rpy="${roll} 0 0" xyz="0 0 0"/-->
+        <material name="${material_name}" />
+        </visual>
+        <collision>
+        <geometry>
+            <box size="${marker_size} ${marker_size} ${marker_size}"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+        <mass value="0.001"/>
+        <inertia izz="1e-6" ixy="0.0" ixz="0.0" ixx="1e-6" iyz="0.0" iyy="1e-6"/>
+        </inertial>
+    </link>
+    <gazebo reference="${material_name}_marker_link">
+       <material> ${material_name} </material> 
+    </gazebo>
+    
+    <joint name="${material_name}_marker_j" type="fixed">
+        <origin xyz="${dx} ${dy} ${dz}" rpy="0 0 ${Yaw}"/>
+        <parent link="body_link"/>
+        <child link="${material_name}_marker_link"/>
+    </joint>
+  </xacro:macro>
+    
+  <xacro:aruco_cube material_name="aruco_example" dx="${marker_pos_x}" dy="0" dz="${marker_pos_z}" Yaw="0" />
+  
+  <!-- контактный сенсор -->
+  
+     <link name="bumper_link">
+        <visual>
+        <geometry>
+            <box size="0.01 0.2 0.01"/>
+        </geometry>
+        <!--origin rpy="${roll} 0 0" xyz="0 0 0"/-->
+        <material name="red">
+          <color rgba="1 0 0 1"/>
+        </material>
+        </visual>
+        <collision name="base_link_fixed_joint_lump__bumper_collision_collision_2">
+        <geometry>
+            <box size="0.01 0.2 0.01"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+        <mass value="0.001"/>
+        <inertia izz="1e-6" ixy="0.0" ixz="0.0" ixx="1e-6" iyz="0.0" iyy="1e-6"/>
+        </inertial>
+    </link>
+      <joint name="bumper_link_j" type="fixed">
+        <origin xyz="0.16 0 0.05" rpy="0 0 0"/>
+        <parent link="body_link"/>
+        <child link="bumper_link"/>
+    </joint>
+    <gazebo reference="bumper_link">
+       <material> Gazebo/Red </material>
+    </gazebo>
+    
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>true</legacyModeNS>
+        <!-- Control period is recommended to be the same as the world simulation period -->
+        <controlPeriod>0.001</controlPeriod>
+    </plugin>
+  </gazebo>
+
+  
+  <gazebo>
+  
+</gazebo>
+   
+
+</robot>

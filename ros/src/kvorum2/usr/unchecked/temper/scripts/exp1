@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#--fb  0.2
+#--em  0.2
+#--ex  1
+#--inhibit 10
+#--time 500
+#--log filename
+
+#--need_food 80
+#--need_comfort 40
+#--need_save 60
+
+need_food=80
+need_comfort=40
+need_save=60
+
+TIMELIM=5000
+
+# Разные need_food
+for need_food in 50 60 70 80 90 100
+do
+  ./run --time $TIMELIM --need_food $need_food --need_food $need_food --log ~/tmp/log_need_food_$need_food
+  sleep 5
+done
+
+# Разные need_save
+for need_save in 30 40 50 60 70 80 90 100
+do
+  ./run --time $TIMELIM --need_save $need_save --need_food $need_food --log ~/tmp/log_need_save_$need_save
+  sleep 5
+done
+
+

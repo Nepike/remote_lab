@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <model name="simplebox">
+      <pose>0 0 0.1 0 0 0</pose>
+      <static>true</static>
+      <link name='simplebox_link'>
+        <collision name='simplebox_collision'>
+          <geometry><box><size>0.2 0.2 0.2</size></box></geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="simplebox_visual">
+            <geometry><box><size>0.2 0.2 0.2</size></box></geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+
+</sdf>

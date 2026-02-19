@@ -1,0 +1,13 @@
+<!--
+  Запуск kvorum_m
+-->
+
+<launch>
+
+  <arg name="cfgdir" default="./config" />
+
+  <node name="kvorum_m_node" pkg="kvorum2" type="mmain.py" output="screen"
+              args="$(arg cfgdir)/env.ctl $(arg cfgdir)/map.ctl $(arg cfgdir)/agents.ctl">
+  </node>
+
+</launch>

@@ -1,0 +1,20 @@
+#!/bin/bash
+# Настройка портов для работы с радиомодулем
+
+USAGE="\nUsage is: $0 device\n
+example:\n
+$0 ttyUSB0\n"
+
+if [ $# = 0 ] ; then
+  echo  -e "$USAGE";
+  exit
+fi
+
+DEVICE=/dev/$1
+echo "set " $DEVICE " parameters"
+
+stty -F $DEVICE speed 9600
+stty -F $DEVICE -icanon min 0 time 0 line 0
+
+echo "Done:"
+stty -F $DEVICE

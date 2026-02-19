@@ -1,0 +1,27 @@
+def AppendRoute(start, ln):
+    cnt = 0  # счетчик количества одинаковвых точек на отрезке
+    cntRoute = len(Route)  # длина маршрута (количество точек на всех отрезках)
+    cntLine = len(ln)      # длина отрезка (количество точек)
+    print "AppendRoute:", cntLine
+
+    if(cntRoute==0):   # добавляем первый отрезок
+        LenRoute = 1
+        for n in range(0, cntLine):
+            ln[n][0] = LenRoute
+            Route.append(ln[n])
+        return 0 # значение StartLine
+    else:
+        # Проверяем, изменились ли ориентиры с предыдущего отрезка  
+        #start = StartLine
+        for i in range(0, cntLine):
+            for j in range(start, cntRoute-1):
+                if(Route[j][1]==ln[i][1] and Route[j][2]==ln[i][2] and Route[j][3]==ln[i][3]): cnt = cnt + 1
+            
+        if(cnt!=(cntRoute-start) or cnt!=cntLine): # не все точки нашли или в новом отрезке точек больше
+            LenRoute = LenRoute + 1
+            for n in range(0, cntLine):
+            ln[n][0] = LenRoute
+                Route.append(ln[n])
+            return cntRoute # новое значение StartLine
+    
+    return start

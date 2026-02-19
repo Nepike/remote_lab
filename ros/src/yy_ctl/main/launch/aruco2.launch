@@ -1,0 +1,13 @@
+<!--
+  aruco_server2
+
+  aruco_server2.py - -input /usb_cam/image_raw - -topic arucopos - -nowindow - -nooutput
+  (только уберите лишний пробел между '- -')
+-->
+
+<launch>
+
+  <node name="aruco_server_node" pkg="yyctl" type="aruco_server2.py" output="screen"
+        args="--input /usb_cam/image_raw --topic arucopos --nowindow" />
+
+</launch>

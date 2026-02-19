@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+    <model name='spot'>
+      <pose>0 0 0 0 0 0</pose>
+      <static>true</static>
+      <link name='spot_link'>
+        <visual name='spot_visual'>
+          <geometry><cylinder><radius>0.055</radius><length>0.001</length></cylinder></geometry>
+        </visual>
+      </link>
+    </model>
+
+</sdf>

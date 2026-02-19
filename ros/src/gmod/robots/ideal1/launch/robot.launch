@@ -1,0 +1,45 @@
+<!--
+  Голый робот, без среды
+-->
+<launch>
+
+  <arg name="ROBOT_MODEL_NAME" value="$(find ideal1)"/>
+
+  <arg name="robot_name" default="mobot1"/>
+
+  <arg name="pos_x" default="2.75"/>
+  <arg name="pos_y" default="1.75"/>
+  <arg name="pos_z" default="0.25"/>
+
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+
+  <!--
+    Создаем группу для упрощения описания систем, где может быть много роботов (чтоб не было конфликтов в именах топиков).
+  -->
+  <group ns="group_$(arg robot_name)">
+
+    <!--
+      Описание робота
+      urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper sdf/urdf file
+    -->
+    <param
+      name="robot_description_$(arg robot_name)"
+      command="$(find xacro)/xacro '$(arg ROBOT_MODEL_NAME)/urdf/model.urdf.xacro' robot_name:=$(arg robot_name)" />
+
+    <!--
+      Запуск
+      push robot_description to factory and spawn robot in gazebo
+    -->
+    <node
+      name="spawn_$(arg robot_name)"
+      pkg="gazebo_ros"
+      type="spawn_model"
+      output="screen"
+      args="-sdf -param robot_description_$(arg robot_name) -x $(arg pos_x) -y $(arg pos_y) -z $(arg pos_z)
+            -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model mobot_$(arg robot_name)" />
+
+  </group>
+
+</launch>

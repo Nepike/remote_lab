@@ -1,0 +1,10 @@
+<!--
+  Запуск Sensor Data via BlueTooth
+  sdvbt-ros.py
+-->
+
+<launch>
+
+  <node name="sdvbt_node" pkg="yyctl" type="sdvbt-ros.py" />
+
+</launch>

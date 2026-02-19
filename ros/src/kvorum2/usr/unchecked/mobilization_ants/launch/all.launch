@@ -1,0 +1,22 @@
+<launch>
+	<include file="$(find mobilization_ants)/launch/yarp4.launch">
+		<arg name="robot" value="robot1" />
+		<arg name="robot_id" value="1" />
+	</include>
+
+	<!--include file="$(find mobilization_ants)/launch/yarp4.launch">
+		<arg name="robot" value="robot2" />
+		<arg name="robot_id" value="2" />
+	</include>
+
+	<include file="$(find mobilization_ants)/launch/yarp4.launch">
+		<arg name="robot" value="robot3" />
+		<arg name="robot_id" value="3" />
+	</include>
+
+	<include file="$(find mobilization_ants)/launch/yarp4.launch">
+		<arg name="robot" value="robot4" />
+		<arg name="robot_id" value="4" />
+	</include-->
+
+</launch>

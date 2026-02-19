@@ -1,0 +1,299 @@
+<FSM name="Search">
+  <StartingState>Init</StartingState>
+  <States>
+    <State>Init</State>
+    <State>SrchG</State>
+    <State>Q1</State>
+    <State>Q2</State>
+    <State>Q3</State>
+    <State>R</State>
+    <State>T</State>
+    <State>PreT</State>
+  </States>
+  <TerminalStates>
+    <State>T</State>
+    <State>F</State>
+  </TerminalStates>
+  <Rules>
+    <Rule>
+      <Source>Init</Source>
+      <Destination>SrchG</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.MAX_ALIVE = 200; self.T = 0; self.TTurn = 7; self.TGoFwd = 20;</Procedure>
+      <Priority>5</Priority>
+    </Rule>
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGLeft(self.goal_id)</Condition>
+      <Procedure>self.turnLeft()</Procedure>
+      <Priority>5</Priority>
+    </Rule>
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGFwd(self.goal_id)</Condition>
+      <Procedure>self.goFwd()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGRight(self.goal_id)</Condition>
+      <Procedure>self.turnRight()</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>R</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+
+    <!-- Obstacle avoidance nested FSM -->
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>Obstacle1</Destination>
+      <Condition>self.isObst()</Condition>
+      <Procedure>self.inner_fsm = self.loadObstacleAvoidanceFSM()</Procedure>
+      <Priority>8</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle1</Source>
+      <Destination>Obstacle1</Destination>
+      <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+      <Procedure>self.inner_fsm.step()</Procedure>
+      <Priority>8</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle1</Source>
+      <Destination>SrchG</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>8</Priority>
+    </Rule>
+
+    <!-- Ritual nested FSM -->
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>Ritual1</Destination>
+      <Condition>self.isNearGoal(self.goal_id)</Condition>
+      <Procedure>self.inner_fsm = self.loadRitualFSM()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+	<Rule>
+      <Source>Ritual1</Source>
+      <Destination>Ritual1</Destination>
+      <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+      <Procedure>self.inner_fsm.step()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Ritual1</Source>
+      <Destination>PreT</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+
+    <Rule>
+      <Source>SrchG</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure></Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>Q1</Destination>
+      <Condition>self.rand(6) == 0</Condition>
+      <Procedure></Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>Q2</Destination>
+      <Condition>self.rand(6) == 1</Condition>
+      <Procedure></Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>Q3</Destination>
+      <Condition>else</Condition>
+      <Procedure></Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure></Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q1</Source>
+      <Destination>Q1</Destination>
+      <Condition>self.T &lt; self.TTurn</Condition>
+      <Procedure>self.turnLeft(); self.T += 1</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q1</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGLeft(self.goal_id) or self.isGRight(self.goal_id) or self.isGFwd(self.goal_id)</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q1</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.T &gt;= self.TTurn</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+
+    <!-- Obstacle avoidance nested FSM -->
+    <Rule>
+      <Source>Q1</Source>
+      <Destination>Obstacle2</Destination>
+      <Condition>self.isObst()</Condition>
+      <Procedure>self.inner_fsm = self.loadObstacleAvoidanceFSM()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle2</Source>
+      <Destination>Obstacle2</Destination>
+      <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+      <Procedure>self.inner_fsm.step()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle2</Source>
+      <Destination>SrchG</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+
+    <Rule>
+      <Source>Q1</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure></Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q2</Source>
+      <Destination>Q2</Destination>
+      <Condition>self.T &lt; self.TTurn</Condition>
+      <Procedure>self.turnRight(); self.T += 1</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q2</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGLeft(self.goal_id) or self.isGRight(self.goal_id) or self.isGFwd(self.goal_id)</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q2</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.T &gt;= self.TTurn</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+
+    <!-- Obstacle avoidance nested FSM -->
+    <Rule>
+      <Source>Q2</Source>
+      <Destination>Obstacle3</Destination>
+      <Condition>self.isObst()</Condition>
+      <Procedure>self.inner_fsm = self.loadObstacleAvoidanceFSM()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle3</Source>
+      <Destination>Obstacle3</Destination>
+      <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+      <Procedure>self.inner_fsm.step()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle3</Source>
+      <Destination>SrchG</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+
+    <Rule>
+      <Source>Q2</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure></Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q3</Source>
+      <Destination>Q3</Destination>
+      <Condition>self.T &lt; self.TGoFwd</Condition>
+      <Procedure>self.goFwd(); self.T += 1</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q3</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.isGLeft(self.goal_id) or self.isGRight(self.goal_id) or self.isGFwd(self.goal_id)</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q3</Source>
+      <Destination>SrchG</Destination>
+      <Condition>self.T &gt;= self.TGoFwd</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+
+    <!-- Obstacle avoidance nested FSM -->
+    <Rule>
+      <Source>Q3</Source>
+      <Destination>Obstacle4</Destination>
+      <Condition>self.isObst()</Condition>
+      <Procedure>self.inner_fsm = self.loadObstacleAvoidanceFSM()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle4</Source>
+      <Destination>Obstacle4</Destination>
+      <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+      <Procedure>self.inner_fsm.step()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obstacle4</Source>
+      <Destination>SrchG</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+
+    <Rule>
+      <Source>Q3</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure></Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>PreT</Source>
+      <Destination>T</Destination>
+      <Condition>True</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+  </Rules>
+</FSM>

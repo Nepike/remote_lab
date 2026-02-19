@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ant</name>
+  <version>0.1.0</version>
+  <description>swhunt2p
+  </description>
+
+  <maintainer email="noname@gmail.com">Robofob</maintainer>
+
+  <license>BSD</license>
+
+  <author email="noname@gmail.com">Robofob</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

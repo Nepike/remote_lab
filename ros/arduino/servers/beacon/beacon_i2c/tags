@@ -1,0 +1,196 @@
+DECODED	./rc5LibRecieverInterupts.h	/^#define DECODED /;"	d
+DECODED	./rc5LibSenderInterupts.h	/^#define DECODED /;"	d
+ERR	./rc5LibRecieverInterupts.h	/^#define ERR /;"	d
+ERR	./rc5LibSenderInterupts.h	/^#define ERR /;"	d
+GAP_TICKS	./rc5LibRecieverInterupts.h	/^#define GAP_TICKS /;"	d
+IRrecv	./rc5LibReciever.cpp	/^  IRrecv::IRrecv(int n, int recvpin)$/;"	f	class:IRrecv
+IRrecv	./rc5LibReciever.cpp	/^  IRrecv::IRrecv(void)$/;"	f	class:IRrecv
+IRrecv	./rc5LibReciever.h	/^class IRrecv$/;"	c
+IRrecv	rc5LibReciever.cpp	/^  IRrecv::IRrecv(void)$/
+IRsend	./rc5LibSender.cpp	/^IRsend::IRsend(byte timer) {$/;"	f	class:IRsend
+IRsend	./rc5LibSender.h	/^class IRsend$/;"	c
+IRsend	rc5LibSender.cpp	/^IRsend::IRsend(byte timer) {$/
+ISR	./rc5LibReciever.cpp	/^  ISR(TIMER_INTR_NAME)$/;"	f
+ISR	rc5LibReciever.cpp	/^  ISR(TIMER_INTR_NAME)$/
+LTOL	./rc5LibRecieverInterupts.h	/^#define LTOL /;"	d
+LTOL	./rc5LibSenderInterupts.h	/^#define LTOL /;"	d
+MARK	./rc5LibRecieverInterupts.h	/^#define MARK /;"	d
+MARK_EXCESS	./rc5LibReciever.h	/^#define MARK_EXCESS /;"	d
+MATCH	./rc5LibRecieverInterupts.h	/^int MATCH(int measured, int desired) {return measured >= TICKS_LOW(desired) && measured <= TICKS_HIGH(desired);}$/;"	f
+MATCH	rc5LibRecieverInterupts.h	/^int MATCH(int measured, int desired) {return measu/
+MATCH_MARK	./rc5LibRecieverInterupts.h	/^int MATCH_MARK(int measured_ticks, int desired_us) {return MATCH(measured_ticks, (desired_us + MARK_EXCESS));}$/;"	f
+MATCH_MARK	rc5LibRecieverInterupts.h	/^int MATCH_MARK(int measured_ticks, int desired_us)/
+MATCH_SPACE	./rc5LibRecieverInterupts.h	/^int MATCH_SPACE(int measured_ticks, int desired_us) {return MATCH(measured_ticks, (desired_us - MARK_EXCESS));}$/;"	f
+MATCH_SPACE	rc5LibRecieverInterupts.h	/^int MATCH_SPACE(int measured_ticks, int desired_us/
+MIN_RC5_SAMPLES	./rc5LibRecieverInterupts.h	/^#define MIN_RC5_SAMPLES /;"	d
+NUMRECV	./rc5LibRecieverInterupts.h	/^  #define NUMRECV /;"	d
+OutputResults	beacon_i2c.ino	/^void OutputResults(void)$/
+RAWBUF	./rc5LibReciever.h	/^#define RAWBUF /;"	d
+RAWBUF	./rc5LibSender.h	/^#define RAWBUF /;"	d
+RC5	./rc5LibReciever.h	/^#define RC5 /;"	d
+RC5_RPT_LENGTH	./rc5LibRecieverInterupts.h	/^#define RC5_RPT_LENGTH	/;"	d
+RC5_RPT_LENGTH	./rc5LibSenderInterupts.h	/^#define RC5_RPT_LENGTH	/;"	d
+RC5_T1	./rc5LibRecieverInterupts.h	/^#define RC5_T1	/;"	d
+RC5_T1	./rc5LibSenderInterupts.h	/^#define RC5_T1	/;"	d
+SPACE	./rc5LibRecieverInterupts.h	/^#define SPACE /;"	d
+STATE_IDLE	./rc5LibRecieverInterupts.h	/^#define STATE_IDLE /;"	d
+STATE_MARK	./rc5LibRecieverInterupts.h	/^#define STATE_MARK /;"	d
+STATE_SPACE	./rc5LibRecieverInterupts.h	/^#define STATE_SPACE /;"	d
+STATE_STOP	./rc5LibRecieverInterupts.h	/^#define STATE_STOP /;"	d
+SYSCLOCK	./rc5LibRecieverInterupts.h	/^#define SYSCLOCK /;"	d
+SYSCLOCK	./rc5LibSenderInterupts.h	/^  #define SYSCLOCK /;"	d
+SetPin	./rc5LibReciever.cpp	/^  void IRrecv::SetPin(int n, int recvpin)$/;"	f	class:IRrecv
+SetPin	rc5LibReciever.cpp	/^  void IRrecv::SetPin(int n, int recvpin)$/
+TICKS_HIGH	./rc5LibRecieverInterupts.h	/^#define TICKS_HIGH(/;"	d
+TICKS_HIGH	./rc5LibSenderInterupts.h	/^#define TICKS_HIGH(/;"	d
+TICKS_HIGH	rc5LibRecieverInterupts.h	/^#define TICKS_HIGH(us) (int) (((us)*UTOL\/USECPERT/
+TICKS_LOW	./rc5LibRecieverInterupts.h	/^#define TICKS_LOW(/;"	d
+TICKS_LOW	./rc5LibSenderInterupts.h	/^#define TICKS_LOW(/;"	d
+TICKS_LOW	rc5LibRecieverInterupts.h	/^#define TICKS_LOW(us) (int) (((us)*LTOL\/USECPERTI/
+TIMER1_CONFIG_KHZ	./rc5LibSenderInterupts.h	/^#define TIMER1_CONFIG_KHZ(/;"	d
+TIMER1_CONFIG_KHZ	rc5LibSenderInterupts.h	/^#define TIMER1_CONFIG_KHZ(val) ({ \\$/
+TIMER1_CONFIG_NORMAL	./rc5LibSenderInterupts.h	/^#define TIMER1_CONFIG_NORMAL(/;"	d
+TIMER1_CONFIG_NORMAL	rc5LibSenderInterupts.h	/^#define TIMER1_CONFIG_NORMAL() ({ \\$/
+TIMER1_DISABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER1_DISABLE_INTR /;"	d
+TIMER1_DISABLE_PWM	./rc5LibSenderInterupts.h	/^#define TIMER1_DISABLE_PWM /;"	d
+TIMER1_ENABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER1_ENABLE_INTR /;"	d
+TIMER1_ENABLE_PWM	./rc5LibSenderInterupts.h	/^#define TIMER1_ENABLE_PWM /;"	d
+TIMER1_INTR_NAME	./rc5LibSenderInterupts.h	/^#define TIMER1_INTR_NAME /;"	d
+TIMER1_PWM_PIN	./rc5LibSenderInterupts.h	/^  #define TIMER1_PWM_PIN /;"	d
+TIMER1_RESET	./rc5LibSenderInterupts.h	/^#define TIMER1_RESET$/;"	d
+TIMER2_CONFIG_KHZ	./rc5LibSenderInterupts.h	/^#define TIMER2_CONFIG_KHZ(/;"	d
+TIMER2_CONFIG_KHZ	rc5LibSenderInterupts.h	/^#define TIMER2_CONFIG_KHZ(val) ({ \\$/
+TIMER2_CONFIG_NORMAL	./rc5LibSenderInterupts.h	/^  #define TIMER2_CONFIG_NORMAL(/;"	d
+TIMER2_CONFIG_NORMAL	rc5LibSenderInterupts.h	/^  #define TIMER2_CONFIG_NORMAL() ({ \\$/
+TIMER2_COUNT_TOP	./rc5LibSenderInterupts.h	/^#define TIMER2_COUNT_TOP /;"	d
+TIMER2_DISABLE_INTR	./rc5LibSenderInterupts.h	/^#define TIMER2_DISABLE_INTR /;"	d
+TIMER2_DISABLE_PWM	./rc5LibSenderInterupts.h	/^#define TIMER2_DISABLE_PWM /;"	d
+TIMER2_ENABLE_INTR	./rc5LibSenderInterupts.h	/^#define TIMER2_ENABLE_INTR /;"	d
+TIMER2_ENABLE_PWM	./rc5LibSenderInterupts.h	/^#define TIMER2_ENABLE_PWM /;"	d
+TIMER2_INTR_NAME	./rc5LibSenderInterupts.h	/^#define TIMER2_INTR_NAME /;"	d
+TIMER2_PWM_PIN	./rc5LibSenderInterupts.h	/^  #define TIMER2_PWM_PIN /;"	d
+TIMER2_RESET	./rc5LibSenderInterupts.h	/^#define TIMER2_RESET$/;"	d
+TIMER3_CONFIG_KHZ	./rc5LibSenderInterupts.h	/^  #define TIMER3_CONFIG_KHZ(/;"	d
+TIMER3_CONFIG_KHZ	rc5LibSenderInterupts.h	/^  #define TIMER3_CONFIG_KHZ(val) ({ \\$/
+TIMER3_CONFIG_NORMAL	./rc5LibSenderInterupts.h	/^  #define TIMER3_CONFIG_NORMAL(/;"	d
+TIMER3_CONFIG_NORMAL	rc5LibSenderInterupts.h	/^  #define TIMER3_CONFIG_NORMAL() ({ \\$/
+TIMER3_DISABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER3_DISABLE_INTR /;"	d
+TIMER3_DISABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER3_DISABLE_PWM /;"	d
+TIMER3_ENABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER3_ENABLE_INTR /;"	d
+TIMER3_ENABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER3_ENABLE_PWM /;"	d
+TIMER3_INTR_NAME	./rc5LibSenderInterupts.h	/^  #define TIMER3_INTR_NAME /;"	d
+TIMER3_PWM_PIN	./rc5LibSenderInterupts.h	/^    #define TIMER3_PWM_PIN /;"	d
+TIMER3_RESET	./rc5LibSenderInterupts.h	/^  #define TIMER3_RESET$/;"	d
+TIMER4_CONFIG_KHZ	./rc5LibSenderInterupts.h	/^  #define TIMER4_CONFIG_KHZ(/;"	d
+TIMER4_CONFIG_KHZ	rc5LibSenderInterupts.h	/^  #define TIMER4_CONFIG_KHZ(val) ({ \\$/
+TIMER4_CONFIG_NORMAL	./rc5LibSenderInterupts.h	/^  #define TIMER4_CONFIG_NORMAL(/;"	d
+TIMER4_CONFIG_NORMAL	rc5LibSenderInterupts.h	/^  #define TIMER4_CONFIG_NORMAL() ({ \\$/
+TIMER4_DISABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER4_DISABLE_INTR /;"	d
+TIMER4_DISABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER4_DISABLE_PWM /;"	d
+TIMER4_ENABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER4_ENABLE_INTR /;"	d
+TIMER4_ENABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER4_ENABLE_PWM /;"	d
+TIMER4_INTR_NAME	./rc5LibSenderInterupts.h	/^  #define TIMER4_INTR_NAME /;"	d
+TIMER4_PWM_PIN	./rc5LibSenderInterupts.h	/^    #define TIMER4_PWM_PIN /;"	d
+TIMER4_RESET	./rc5LibSenderInterupts.h	/^  #define TIMER4_RESET$/;"	d
+TIMER5_CONFIG_KHZ	./rc5LibSenderInterupts.h	/^  #define TIMER5_CONFIG_KHZ(/;"	d
+TIMER5_CONFIG_KHZ	rc5LibSenderInterupts.h	/^  #define TIMER5_CONFIG_KHZ(val) ({ \\$/
+TIMER5_CONFIG_NORMAL	./rc5LibSenderInterupts.h	/^  #define TIMER5_CONFIG_NORMAL(/;"	d
+TIMER5_CONFIG_NORMAL	rc5LibSenderInterupts.h	/^  #define TIMER5_CONFIG_NORMAL() ({ \\$/
+TIMER5_DISABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER5_DISABLE_INTR /;"	d
+TIMER5_DISABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER5_DISABLE_PWM /;"	d
+TIMER5_ENABLE_INTR	./rc5LibSenderInterupts.h	/^  #define TIMER5_ENABLE_INTR /;"	d
+TIMER5_ENABLE_PWM	./rc5LibSenderInterupts.h	/^  #define TIMER5_ENABLE_PWM /;"	d
+TIMER5_INTR_NAME	./rc5LibSenderInterupts.h	/^  #define TIMER5_INTR_NAME /;"	d
+TIMER5_PWM_PIN	./rc5LibSenderInterupts.h	/^    #define TIMER5_PWM_PIN /;"	d
+TIMER5_RESET	./rc5LibSenderInterupts.h	/^  #define TIMER5_RESET$/;"	d
+TIMER_CONFIG_KHZ	./rc5LibRecieverInterupts.h	/^#define TIMER_CONFIG_KHZ(/;"	d
+TIMER_CONFIG_KHZ	rc5LibRecieverInterupts.h	/^#define TIMER_CONFIG_KHZ(val) ({ \\$/
+TIMER_CONFIG_NORMAL	./rc5LibRecieverInterupts.h	/^#define TIMER_CONFIG_NORMAL(/;"	d
+TIMER_CONFIG_NORMAL	rc5LibRecieverInterupts.h	/^#define TIMER_CONFIG_NORMAL() ({ \\$/
+TIMER_COUNT_TOP	./rc5LibRecieverInterupts.h	/^#define TIMER_COUNT_TOP /;"	d
+TIMER_DISABLE_INTR	./rc5LibRecieverInterupts.h	/^#define TIMER_DISABLE_INTR /;"	d
+TIMER_DISABLE_PWM	./rc5LibRecieverInterupts.h	/^#define TIMER_DISABLE_PWM /;"	d
+TIMER_ENABLE_INTR	./rc5LibRecieverInterupts.h	/^#define TIMER_ENABLE_INTR /;"	d
+TIMER_ENABLE_PWM	./rc5LibRecieverInterupts.h	/^#define TIMER_ENABLE_PWM /;"	d
+TIMER_INTR_NAME	./rc5LibRecieverInterupts.h	/^#define TIMER_INTR_NAME /;"	d
+TIMER_PWM_PIN	./rc5LibRecieverInterupts.h	/^  #define TIMER_PWM_PIN /;"	d
+TIMER_RESET	./rc5LibRecieverInterupts.h	/^#define TIMER_RESET$/;"	d
+TOLERANCE	./rc5LibRecieverInterupts.h	/^#define TOLERANCE /;"	d
+TOLERANCE	./rc5LibSenderInterupts.h	/^#define TOLERANCE /;"	d
+TOPBIT	./rc5LibRecieverInterupts.h	/^#define TOPBIT /;"	d
+TOPBIT	./rc5LibSenderInterupts.h	/^#define TOPBIT /;"	d
+UNKNOWN	./rc5LibReciever.h	/^#define UNKNOWN /;"	d
+USECPERTICK	./rc5LibReciever.h	/^#define USECPERTICK /;"	d
+USECPERTICK	./rc5LibSender.h	/^#define USECPERTICK /;"	d
+UTOL	./rc5LibRecieverInterupts.h	/^#define UTOL /;"	d
+UTOL	./rc5LibSenderInterupts.h	/^#define UTOL /;"	d
+VIRTUAL	./rc5LibReciever.h	/^#define VIRTUAL /;"	d
+VIRTUAL	./rc5LibReciever.h	/^#define VIRTUAL$/;"	d
+VIRTUAL	./rc5LibSender.h	/^#define VIRTUAL /;"	d
+VIRTUAL	./rc5LibSender.h	/^#define VIRTUAL$/;"	d
+_GAP	./rc5LibRecieverInterupts.h	/^#define _GAP /;"	d
+_pin	./rc5LibSender.h	/^    byte _pin;$/;"	m	class:IRsend
+_timer	./rc5LibSender.h	/^    byte _timer;$/;"	m	class:IRsend
+bits	./rc5LibReciever.h	/^  int bits; \/\/ Number of bits in decoded value$/;"	m	class:decode_results
+blinkflag	./rc5LibRecieverInterupts.h	/^    uint8_t blinkflag;         \/\/ TRUE to enable blinking of pin 13 on IR processing$/;"	m	struct:__anon1
+byte	beacon_i2c.ino	/^\/\/ exec[4]	-	extra byte (not used in current ver/
+cbi	rc5LibRecieverInterupts.h	/^\/\/ #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV/
+decode	./rc5LibReciever.cpp	/^  int IRrecv::decode(decode_results *results) $/;"	f	class:IRrecv
+decodeRC5	./rc5LibReciever.cpp	/^  long IRrecv::decodeRC5(decode_results *results) {$/;"	f	class:IRrecv
+decode_results	./rc5LibReciever.h	/^class decode_results {$/;"	c
+decode_type	./rc5LibReciever.h	/^  int decode_type; \/\/ NEC, SONY, RC5, UNKNOWN$/;"	m	class:decode_results
+enableIRIn	./rc5LibReciever.cpp	/^  void enableIRIn(void) $/;"	f
+enableIRIn	rc5LibReciever.cpp	/^  void enableIRIn(void) $/
+enableIROut1	./rc5LibSender.cpp	/^void IRsend::enableIROut1(int khz) {$/;"	f	class:IRsend
+enableIROut1	rc5LibSender.cpp	/^void IRsend::enableIROut1(int khz) {$/
+enableIROut2	./rc5LibSender.cpp	/^void IRsend::enableIROut2(int khz) {$/;"	f	class:IRsend
+enableIROut3	./rc5LibSender.cpp	/^void IRsend::enableIROut3(int khz) {$/;"	f	class:IRsend
+enableIROut4	./rc5LibSender.cpp	/^void IRsend::enableIROut4(int khz) {$/;"	f	class:IRsend
+enableIROut5	./rc5LibSender.cpp	/^void IRsend::enableIROut5(int khz) {$/;"	f	class:IRsend
+getPin	./rc5LibSender.cpp	/^byte IRsend::getPin(){$/;"	f	class:IRsend
+getPin	rc5LibSender.cpp	/^byte IRsend::getPin(){$/
+getRClevel	./rc5LibReciever.cpp	/^  int IRrecv::getRClevel(decode_results *results, int *offset, int *used, int t1) {$/;"	f	class:IRrecv
+irparams	./rc5LibReciever.cpp	/^  volatile irparams_t irparams[NUMRECV];  $/;"	v
+irparams_t	./rc5LibRecieverInterupts.h	/^  irparams_t;$/;"	t	typeref:struct:__anon1
+irparams_t	rc5LibRecieverInterupts.h	/^  irparams_t;$/
+loop	beacon_i2c.ino	/^void loop()  $/
+mark1	./rc5LibSender.cpp	/^void IRsend::mark1(int time) {$/;"	f	class:IRsend
+mark1	rc5LibSender.cpp	/^void IRsend::mark1(int time) {$/
+mark2	./rc5LibSender.cpp	/^void IRsend::mark2(int time) {$/;"	f	class:IRsend
+mark3	./rc5LibSender.cpp	/^void IRsend::mark3(int time) {$/;"	f	class:IRsend
+mark4	./rc5LibSender.cpp	/^void IRsend::mark4(int time) {$/;"	f	class:IRsend
+mark5	./rc5LibSender.cpp	/^void IRsend::mark5(int time) {$/;"	f	class:IRsend
+num	./rc5LibReciever.h	/^  int num;$/;"	m	class:IRrecv
+one	rc5LibSender.cpp	/^\/\/ Note: first bit must be a one (start bit)$/
+r5LibSenderInterupts_h	./rc5LibSenderInterupts.h	/^  #define r5LibSenderInterupts_h$/;"	d
+rawbuf	./rc5LibReciever.h	/^  volatile unsigned int *rawbuf; \/\/ Raw intervals in .5 us ticks$/;"	m	class:decode_results
+rawbuf	./rc5LibRecieverInterupts.h	/^    unsigned int rawbuf[RAWBUF]; \/\/ raw data$/;"	m	struct:__anon1
+rawlen	./rc5LibReciever.h	/^  int rawlen; \/\/ Number of records in rawbuf.$/;"	m	class:decode_results
+rawlen	./rc5LibRecieverInterupts.h	/^    uint8_t rawlen;         \/\/ counter of entries in rawbuf$/;"	m	struct:__anon1
+rc5LibRecieverInterupts_h	./rc5LibRecieverInterupts.h	/^#define rc5LibRecieverInterupts_h$/;"	d
+rc5LibReciever_h	./rc5LibReciever.h	/^#define rc5LibReciever_h$/;"	d
+rc5LibSender_h	./rc5LibSender.h	/^#define rc5LibSender_h$/;"	d
+rcvstate	./rc5LibRecieverInterupts.h	/^    uint8_t rcvstate;          \/\/ state machine$/;"	m	struct:__anon1
+receiveEvent	beacon_i2c.ino	/^void receiveEvent(int howMany)$/
+receiveEventIRA	beacon_i2c.ino	/^void receiveEventIRA(int howMany)$/
+receiveEventIRA_test	beacon_i2c.ino	/^void receiveEventIRA_test(byte cmd, byte tcode=0)$/
+receiver	beacon_i2c.ino	/^} receiver; $/
+recvpin	./rc5LibRecieverInterupts.h	/^    uint8_t recvpin;           \/\/ pin for IR data from detector$/;"	m	struct:__anon1
+requestEvent	beacon_i2c.ino	/^void requestEvent(){ $/
+resume	./rc5LibReciever.cpp	/^  void IRrecv::resume() $/;"	f	class:IRrecv
+sbi	rc5LibRecieverInterupts.h	/^\/\/ #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(/
+sendCmd	beacon_i2c.ino	/^void sendCmd(IRsend *Sender, byte value, byte repe/
+sendRC5	./rc5LibSender.cpp	/^void IRsend::sendRC5(unsigned long data, int nbits)$/;"	f	class:IRsend
+sendRC51	./rc5LibSender.cpp	/^void IRsend::sendRC51(unsigned long data, int nbits)$/;"	f	class:IRsend
+sendRC52	./rc5LibSender.cpp	/^void IRsend::sendRC52(unsigned long data, int nbits)$/;"	f	class:IRsend
+sendRC53	./rc5LibSender.cpp	/^void IRsend::sendRC53(unsigned long data, int nbits)$/;"	f	class:IRsend
+sendRC54	./rc5LibSender.cpp	/^void IRsend::sendRC54(unsigned long data, int nbits)$/;"	f	class:IRsend
+sendRC55	./rc5LibSender.cpp	/^void IRsend::sendRC55(unsigned long data, int nbits)$/;"	f	class:IRsend
+space1	./rc5LibSender.cpp	/^void IRsend::space1(int time) {$/;"	f	class:IRsend
+space1	rc5LibSender.cpp	/^void IRsend::space1(int time) {$/
+space2	./rc5LibSender.cpp	/^void IRsend::space2(int time) {$/;"	f	class:IRsend
+space3	./rc5LibSender.cpp	/^void IRsend::space3(int time) {$/;"	f	class:IRsend
+space4	./rc5LibSender.cpp	/^void IRsend::space4(int time) {$/;"	f	class:IRsend
+space5	./rc5LibSender.cpp	/^void IRsend::space5(int time) {$/;"	f	class:IRsend
+timer	./rc5LibRecieverInterupts.h	/^    unsigned int timer;     \/\/ state timer, counts 50uS ticks.$/;"	m	struct:__anon1
+value	./rc5LibReciever.h	/^  unsigned long value; \/\/ Decoded value$/;"	m	class:decode_results

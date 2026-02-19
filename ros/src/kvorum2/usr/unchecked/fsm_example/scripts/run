@@ -1,0 +1,33 @@
+#!/bin/bash
+
+CFGDIR=`rospack find fsm_example`/config
+PKG_NAME=fsm_example
+
+RUN()
+{
+  konsole --hold -p tabtitle="$1 -- $2" -p TerminalRows=27 -p TerminalColumns=91 -e rosrun $1 $2 $3 $4 $5 $6 $7 $8 $9
+  echo "Wait... "
+  sleep 2
+  echo "Done."
+}
+
+RUN_DEBUG()
+{
+  konsole --hold -p tabtitle="$1 -- $2" -p TerminalRows=27 -p TerminalColumns=91 -e "bash --rcfile ~/.bashrc -c 'roscd $1; python -m pdb $2 $3 $4 $5 $6'"
+  echo "Wait... "
+  sleep 2
+  echo "Done."
+}
+
+# kvorum_v
+RUN kvorum vmain.py $CFGDIR/env.ctl $CFGDIR/map.ctl
+
+# kvorum_m
+RUN kvorum mmain.py $CFGDIR/env.ctl $CFGDIR/map.ctl $CFGDIR/agents.ctl
+
+# agent control
+rosrun $PKG_NAME fsm_ants_node.py _robots_num:=1 _log_config:=`rospack find fsm_example`/share/logging.yaml
+
+
+rosnode kill kvorum_m
+rosnode kill kvorum_v

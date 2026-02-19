@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+  LP 24.12.2023
+-->
+
+<robot name="rosbots" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- ================================================================================================== -->
+<xacro:property name="PI" value="3.1415926535897931"/>
+
+<xacro:property name="chassisHeight" value="0.2"/>
+<xacro:property name="chassisLength" value="0.4"/>
+<xacro:property name="chassisWidth" value="0.4"/>
+<xacro:property name="chassisMass" value="0.15"/>
+
+<xacro:arg name="robot_name" default="ideal1" />
+<xacro:include filename="$(find ideal1)/urdf/macros.xacro" />
+
+<static>False</static>
+
+<!-- ================================================================================================== -->
+<!-- Шасси                                                                                              -->
+<!-- ================================================================================================== -->
+<link name="chassis">
+  <visual>
+    <origin xyz="0 0 ${chassisHeight/4}" rpy="0 0 0" />
+    <geometry> <box size="${chassisLength} ${chassisWidth} ${chassisHeight}" /> </geometry>
+  </visual>
+  <collision>
+    <geometry> <box size="${chassisLength} ${chassisWidth} ${chassisHeight}" /> </geometry>
+  </collision>
+  <inertial>
+    <mass value="${chassisMass}" />
+    <origin xyz="0 0 0" />
+    <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}" />
+  </inertial>
+</link>
+
+<gazebo reference="chassis">
+  <material>Gazebo/Blue</material>
+</gazebo>
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Плагин движения                                                                                    -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+
+<!-- ================================================================================================== -->
+<!-- Упрощенное движение, без колес                                                                     -->
+<!-- ================================================================================================== -->
+
+<gazebo>
+  <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+    <commandTopic>/$(arg robot_name)/cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <odometryRate>20.0</odometryRate>
+    <robotBaseFrame>chassis</robotBaseFrame>
+  </plugin>
+</gazebo>
+
+</robot>

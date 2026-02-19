@@ -1,0 +1,32 @@
+#!/bin/bash
+
+MODULE=demo
+
+SDIR=.
+CFGDIR=$SDIR/config
+
+#
+#
+# Run Viz
+konsole -p tabtitle="Viz" -p TerminalRows=15 -p TerminalColumns=50 -e $SDIR/$MODULE.v &
+echo "Wait... "
+sleep 3
+echo "Done."
+
+# Run Mod
+konsole -p tabtitle="Mod" -p TerminalRows=15 -p TerminalColumns=50 -e $SDIR/$MODULE.m &
+echo "Wait... "
+sleep 3
+echo "Done."
+
+#
+#
+#
+
+wmctrl  -a "mc"
+wmctrl  -a "Kvorum_V"
+
+$SDIR/$MODULE.py $CFGDIR/env.ctl $CFGDIR/map.ctl $CFGDIR/agents.ctl
+
+#
+rosnode kill `rosnode list |grep kvorum`

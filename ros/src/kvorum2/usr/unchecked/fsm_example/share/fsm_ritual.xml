@@ -1,0 +1,79 @@
+<FSM name="Ritual">
+    <StartingState>Init</StartingState>
+    <TerminalStates>
+        <State>T</State>
+    </TerminalStates>
+    <States>
+        <State>Q2</State>
+        <State>Q1</State>
+        <State>Rtl</State>
+        <State>T</State>
+        <State>PreT</State>
+        <State>Init</State>
+    </States>
+    <Rules>
+        <Rule>
+            <Source>Q1</Source>
+            <Destination>PreT</Destination>
+            <Condition>self.steps_counter &gt; self.MAX_ALIVE</Condition>
+            <Procedure>pass</Procedure>
+            <Priority>0</Priority>
+        </Rule>
+        <Rule>
+            <Source>Q1</Source>
+            <Destination>Q2</Destination>
+            <Condition>else</Condition>
+            <Procedure>self.T = 0</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+        <Rule>
+            <Source>PreT</Source>
+            <Destination>T</Destination>
+            <Condition>True</Condition>
+            <Procedure>self.goStop()</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+        <Rule>
+            <Source>Q2</Source>
+            <Destination>PreT</Destination>
+            <Condition>else</Condition>
+            <Procedure>pass</Procedure>
+            <Priority>0</Priority>
+        </Rule>
+        <Rule>
+            <Source>Q2</Source>
+            <Destination>Q2</Destination>
+            <Condition>self.T &lt; self.TRitualTurn</Condition>
+            <Procedure>self.turnRight(); self.T += 1</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+        <Rule>
+            <Source>Rtl</Source>
+            <Destination>PreT</Destination>
+            <Condition>self.steps_counter &gt; self.MAX_ALIVE</Condition>
+            <Procedure>pass</Procedure>
+            <Priority>0</Priority>
+        </Rule>
+        <Rule>
+            <Source>Q1</Source>
+            <Destination>Q1</Destination>
+            <Condition>self.T &lt; self.TRitualTurn</Condition>
+            <Procedure>self.turnLeft(); self.T += 1</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+        <Rule>
+            <Source>Rtl</Source>
+            <Destination>Q1</Destination>
+            <Condition>True</Condition>
+            <Procedure>self.T = 0</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+        <Rule>
+            <Source>Init</Source>
+            <Destination>Rtl</Destination>
+            <Condition>else</Condition>
+            <Procedure>self.T = 0; self.TRitualTurn = 38; self.MAX_ALIVE = 120;</Procedure>
+            <Priority>1</Priority>
+        </Rule>
+    </Rules>
+</FSM>

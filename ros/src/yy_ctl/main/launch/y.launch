@@ -1,0 +1,26 @@
+<!--
+  YARP-13x Kvorum Project
+
+  camera
+  rosserial_python
+  aruco
+  joystick
+
+  Можно запускать с аргументами:
+    roslaunch yyctl yarp13.launch port:=/dev/ttyUSB1
+-->
+
+<launch>
+  <arg name="port" default="/dev/ttyUSB0"/>
+
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="57600"/>
+  </node>
+
+  <include file="$(find yyctl)/launch/cam.launch" />
+<!--
+  <include file="$(find yyctl)/launch/aruco.launch" />
+  <include file="$(find yyctl)/launch/joy.launch" />
+-->
+</launch>

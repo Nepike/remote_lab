@@ -1,0 +1,79 @@
+<FSM name="Meta">
+    <StartingState>Init</StartingState>
+    <TerminalStates/>
+    <States>
+        <State>Goal1</State>
+        <State>Meta</State>
+        <State>Goal2</State>
+        <State>RandomWalk</State>
+        <State>Init</State>
+    </States>
+    <Rules>
+        <Rule>
+            <Source>Init</Source>
+            <Destination>Meta</Destination>
+            <Condition>True</Condition>
+            <Procedure>pass</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Goal2</Source>
+            <Destination>Goal2</Destination>
+            <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+            <Procedure>self.inner_fsm.step()</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Goal1</Source>
+            <Destination>Goal1</Destination>
+            <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+            <Procedure>self.inner_fsm.step()</Procedure>
+        </Rule>
+        <Rule>
+            <Source>RandomWalk</Source>
+            <Destination>RandomWalk</Destination>
+            <Condition>self.inner_fsm.status == self.inner_fsm.FSM_NOT_FINISHED</Condition>
+            <Procedure>self.inner_fsm.step()</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Meta</Source>
+            <Destination>Goal2</Destination>
+            <Condition>self.rand(3) == 1</Condition>
+            <Procedure>self.inner_fsm = self.loadSearchFsm(2)</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Meta</Source>
+            <Destination>Goal1</Destination>
+            <Condition>self.rand(3) == 2</Condition>
+            <Procedure>self.inner_fsm = self.loadSearchFsm(1)</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Meta</Source>
+            <Destination>RandomWalk</Destination>
+            <Condition>self.rand(3) == 0</Condition>
+            <Procedure>self.inner_fsm = self.loadRandomWalk()</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Goal1</Source>
+            <Destination>Meta</Destination>
+            <Condition>else</Condition>
+            <Procedure>pass</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Goal2</Source>
+            <Destination>Meta</Destination>
+            <Condition>else</Condition>
+            <Procedure>pass</Procedure>
+        </Rule>
+        <Rule>
+            <Source>RandomWalk</Source>
+            <Destination>Meta</Destination>
+            <Condition>else</Condition>
+            <Procedure>pass</Procedure>
+        </Rule>
+        <Rule>
+            <Source>Meta</Source>
+            <Destination>Meta</Destination>
+            <Condition>else</Condition>
+            <Procedure>pass</Procedure>
+        </Rule>
+    </Rules>
+</FSM>

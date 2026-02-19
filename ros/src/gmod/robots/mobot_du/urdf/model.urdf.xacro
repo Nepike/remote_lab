@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+  LP 24.12.2023
+  V 1.04
+  28.04.2024
+-->
+
+<robot name="rosbots" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- ================================================================================================== -->
+<xacro:property name="PI" value="3.1415926535897931"/>
+
+<xacro:property name="chassisHeight" value="0.2"/>
+<xacro:property name="chassisLength" value="0.4"/>
+<xacro:property name="chassisWidth" value="0.4"/>
+<xacro:property name="chassisMass" value="0.75"/>
+
+<xacro:property name="base_diskHeight" value="0.1"/>
+<xacro:property name="base_diskRadius" value="0.2"/>
+<xacro:property name="base_diskMass" value="0.01"/>
+
+<xacro:property name="casterRadius" value="0.025"/>
+<xacro:property name="casterMass" value="0.01"/>
+
+<xacro:property name="wheelRadius" value="0.10"/>
+<xacro:property name="wheelWidth" value="0.05"/>
+<xacro:property name="wheelPos" value="0.15"/>
+<xacro:property name="wheelMass" value="0.01"/>
+
+<xacro:property name="wheelTorq" value="20"/>
+<xacro:property name="wheelAcc" value="0.5"/>
+
+<xacro:property name="cameraSize" value="0.05"/>
+<xacro:property name="cameraMass" value="0.01"/>
+
+<xacro:property name="bumperSize" value="0.05"/>
+
+<xacro:property name="rfRadius" value="0.05"/>
+<xacro:property name="rfHeight" value="0.1"/>
+
+<xacro:property name="ArucoBoxSize" value="0.3"/>
+<xacro:property name="ArucoType" value="5x5"/>
+
+<xacro:arg name="robot_name" default="mobot1" />
+<xacro:arg name="robot_id" default="1" />
+
+<!-- Параметры дальномеров -->
+<xacro:property name="rf_min_range_default" value="0.02"/>
+<xacro:property name="rf_max_range_default" value="4.0"/>
+
+<xacro:include filename="$(find mobot_du)/urdf/macros.xacro" />
+
+<static>False</static>
+
+<!-- ================================================================================================== -->
+
+<link name="base_link" />
+<joint name="zero_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="chassis"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+<!-- ================================================================================================== -->
+<!-- Шасси                                                                                              -->
+<!-- ================================================================================================== -->
+<link name="chassis">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry> <box size="${chassisLength} ${chassisWidth} ${chassisHeight}" /> </geometry>
+  </visual>
+  <collision>
+    <geometry> <box size="${chassisLength} ${chassisWidth} ${chassisHeight}" /> </geometry>
+  </collision>
+  <inertial>
+    <mass value="${chassisMass}" />
+    <origin xyz="0 0 0" />
+    <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}" />
+  </inertial>
+</link>
+
+<gazebo reference="chassis">
+  <material>Gazebo/Blue</material>
+</gazebo>
+
+<!-- ================================================================================================== -->
+<!-- Верхний диск                                                                                       -->
+<!-- ================================================================================================== -->
+<link name="base_disk">
+  <visual>
+    <geometry> <cylinder length="${base_diskHeight}" radius="${base_diskRadius}" /> </geometry>
+  </visual>
+  <collision>
+    <geometry> <cylinder length="${base_diskHeight}" radius="${base_diskRadius}" /> </geometry>
+  </collision>
+  <inertial>
+    <mass value="${base_diskMass}" />
+    <origin xyz="0 0 0" />
+    <xacro:cylinder_inertia m="${base_diskMass}" r="${base_diskRadius}" h="${base_diskHeight}" />
+  </inertial>
+</link>
+
+<joint name="base_disk_joint" type="fixed">
+  <origin xyz="0 0 ${chassisHeight/2 + base_diskHeight}" rpy="0 0 0" />
+  <parent link="chassis" />
+  <child link="base_disk" />
+</joint>
+
+<!-- ================================================================================================== -->
+<!-- Колеса                                                                                             -->
+<!-- ================================================================================================== -->
+<xacro:wheel2 name="left_wheel" tY="1" />
+<xacro:wheel2 name="right_wheel" tY="-1" />
+
+<!-- ================================================================================================== -->
+<!-- Опорное колесо                                                                                     -->
+<!-- ================================================================================================== -->
+<gazebo reference="caster">
+  <mu1>0</mu1>
+  <mu2>0</mu2>
+  <material>Gazebo/Orange</material>
+</gazebo>
+
+<link name="caster">
+  <collision>
+    <geometry> <sphere radius="${casterRadius}" /> </geometry>
+  </collision>
+  <origin xyz="0 0 0" rpy="0 0 0" />
+  <visual>
+    <geometry> <sphere radius="${casterRadius}" /> </geometry>
+    <origin xyz="0 0 0" />
+  </visual>
+  <inertial>
+    <mass value="${casterMass}" />
+    <origin xyz="0 0 0" />
+    <xacro:sphere_inertia m="${casterMass}" r="${casterRadius}" />
+  </inertial>
+</link>
+
+<joint name="caster_joint" type="fixed">
+  <origin xyz="${-chassisLength/3} 0 ${-(chassisHeight/2+casterRadius+0.01)}" rpy="0 0 0" />
+  <parent link="chassis" />
+  <child link="caster" />
+</joint>
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Плагин движения                                                                                    -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+
+<!-- ================================================================================================== -->
+<!-- Упрощенное движение, без колес                                                                     -->
+<!-- ================================================================================================== -->
+<!--
+<gazebo>
+  <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+    <commandTopic>/$(arg robot_name)/cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <odometryRate>20.0</odometryRate>
+    <robotBaseFrame>chassis</robotBaseFrame>
+  </plugin>
+</gazebo>
+-->
+
+<!-- ================================================================================================== -->
+<!-- Реалистичное движение, привод на колеса                                                            -->
+<!-- ================================================================================================== -->
+<gazebo>
+  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+    <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+    <commandTopic>/$(arg robot_name)/cmd_vel</commandTopic>
+
+    <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+    <odometryTopic>odom</odometryTopic>
+
+    <!-- Odometry frame, defaults to `odom` -->
+    <odometryFrame>odom</odometryFrame>
+
+    <odometryRate>20.0</odometryRate>
+
+    <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+    <odometrySource>1</odometrySource>
+
+    <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+    <robotBaseFrame>chassis</robotBaseFrame>
+
+    <!-- Set to true to swap right and left wheels, defaults to true -->
+    <legacyMode>false</legacyMode>
+
+    <alwaysOn>true</alwaysOn>
+
+    <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+    <publishWheelTF>true</publishWheelTF>
+
+    <!-- Set to true to publish transforms for the odometry, defaults to true -->
+    <publishOdomTF>true</publishOdomTF>
+    <publishTf>1</publishTf>
+
+    <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+    <publishWheelJointState>true</publishWheelJointState>
+
+    <!-- Plugin update rate in Hz -->
+    <updateRate>10.0</updateRate>
+
+    <!-- Name of left joint, defaults to `left_joint` -->
+    <leftJoint>left_wheel_joint</leftJoint>
+
+    <!-- Name of right joint, defaults to `right_joint` -->
+    <rightJoint>right_wheel_joint</rightJoint>
+
+    <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+    <wheelSeparation>1.1</wheelSeparation>
+
+    <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+    <wheelDiameter>${wheelRadius*2}</wheelDiameter>
+
+    <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+    <wheelAcceleration>${wheelAcc}</wheelAcceleration>
+
+    <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+    <wheelTorque>${wheelTorq}</wheelTorque>
+
+  </plugin>
+</gazebo>
+
+<!-- ================================================================================================== -->
+<!-- Гироскоп                                                                                           -->
+<!-- ================================================================================================== -->
+<!--
+https://classic.gazebosim.org/tutorials?tut=ros_gzplugins
+IMU (GazeboRosImu)
+
+Description: simulates IMU sensor. Measurements are computed by the ROS plugin, not by Gazebo.
+  See usage snippet sample below for implementation.
+
+https://classic.gazebosim.org/tutorials?tut=ros_gzplugins
+IMU sensor (GazeboRosImuSensor)
+
+Description: simulates an Inertial Motion Unit sensor, the main differences from IMU (GazeboRosIMU) are:
+- inheritance from SensorPlugin instead of ModelPlugin,
+- measurements are given by gazebo ImuSensor instead of being computed by the ros plugin,
+- gravity is included in inertial measurements.
+- set initialOrientationAsReference to false to comply with REP 145.
+-->
+
+<!--                                                                                                    -->
+<!-- Рабочий вариант                                                                                    -->
+<!--                                                                                                    -->
+<gazebo reference="chassis">
+  <gravity>true</gravity>
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>30</update_rate>
+    <visualize>true</visualize>
+    <topic>__default_topic__</topic>
+    <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+      <topicName>/$(arg robot_name)/imu/data</topicName>
+      <bodyName>imu_link</bodyName>
+      <updateRateHZ>10.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>imu_link</frameName>
+      <initialOrientationAsReference>false</initialOrientationAsReference>
+    </plugin>
+    <pose>0 0 0 0 0 0</pose>
+  </sensor>
+</gazebo>
+
+<!--                                                                                                    -->
+<!-- Этот вариант не работает, когда роботов больше одного                                              -->
+<!--                                                                                                    -->
+<!--
+<gazebo>
+  <plugin name="gazebo_ros_imu_controller" filename="libgazebo_ros_imu.so">
+    <topicName>/$(arg robot_name)/imu/data</topicName>
+    <serviceName>imu/service</serviceName>
+    <bodyName>chassis</bodyName>
+    <gaussianNoise>0</gaussianNoise>
+    <rpyOffsets>0 0 0</rpyOffsets>
+    <updateRate>30.0</updateRate>
+    <alwaysOn>true</alwaysOn>
+    <gaussianNoise>0</gaussianNoise>
+  </plugin>
+</gazebo>
+-->
+ 
+<!-- ================================================================================================== -->
+<!-- Камера                                                                                             -->
+<!-- Сама камера живет в макро-файле: <xacro:macro name="camera" params="name">                         -->
+<!-- ================================================================================================== -->
+<xacro:camera name="camera1"/>
+
+<!-- ================================================================================================== -->
+<!-- Контактные датчики                                                                                 -->
+<!-- ================================================================================================== -->
+<xacro:bumper name="bumper_left" size="${bumperSize}" tY="1"/>
+<xacro:bumper name="bumper_right" size="${bumperSize}" tY="-1"/>
+
+<!-- ================================================================================================== -->
+<!-- Ультразвуковые дальномеры                                                                          -->
+<!-- ================================================================================================== -->
+<!-- Передние датчики -->
+<xacro:usonic name="usonic_fwd_center" u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} 0 ${chassisHeight/8}" rpy="0 0 0"/>
+
+<!-- Нормальное расположение -->
+<!--
+<xacro:usonic name="usonic_fwd_left"   u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${1*3/4*chassisWidth/2}  ${chassisHeight/8}" rpy="0 0 ${45*PI/180}"/>
+<xacro:usonic name="usonic_fwd_right"  u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${-1*3/4*chassisWidth/2} ${chassisHeight/8}" rpy="0 0 ${-45*PI/180}"/>
+-->
+
+<!-- Перекрестное расположение -->
+<xacro:usonic name="usonic_fwd_right"  u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${1*3/4*chassisWidth/2}  ${chassisHeight/8}" rpy="0 0 ${-30*PI/180}"/>
+<xacro:usonic name="usonic_fwd_left"   u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${-1*3/4*chassisWidth/2} ${chassisHeight/8}" rpy="0 0 ${30*PI/180}"/>
+
+<!-- Боковые датчики -->
+<xacro:usonic name="usonic_side_left_fwd"  u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${1*chassisWidth/2}  ${chassisHeight/8}" rpy="0 0 ${60*PI/180}"/>
+<xacro:usonic name="usonic_side_right_fwd" u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${chassisLength/2} ${-1*chassisWidth/2} ${chassisHeight/6}" rpy="0 0 ${-60*PI/180}"/>
+
+<xacro:usonic name="usonic_side_left_bck"  u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${-chassisLength/2} ${1*chassisWidth/2}  ${chassisHeight/8}" rpy="0 0 ${120*PI/180}"/>
+<xacro:usonic name="usonic_side_right_bck" u_height="${rfHeight}" u_rad="${rfRadius}" xyz="${-chassisLength/2} ${-1*chassisWidth/2} ${chassisHeight/8}" rpy="0 0 ${-120*PI/180}"/>
+
+<!-- ================================================================================================== -->
+<!-- Лидар                                                                                              -->
+<!-- ================================================================================================== -->
+<xacro:lidar name="lidar1"/>
+
+<!-- ================================================================================================== -->
+<!-- ArUco-маркер наверху (метка робота)                                                                -->
+<!-- ================================================================================================== -->
+<xacro:arucobox3 anum="$(arg robot_id)" artype="${ArucoType}" />
+
+<!-- ================================================================================================== -->
+<!-- Локатор на сервоприводе                                                                            -->
+<!-- ================================================================================================== -->
+<xacro:locator name="servolocator" dx="${chassisLength/2+rf_size}" dy="0" dz="${chassisHeight/2}" Yaw="0" />
+
+</robot>

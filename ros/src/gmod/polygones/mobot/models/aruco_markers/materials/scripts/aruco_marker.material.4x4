@@ -1,0 +1,765 @@
+
+material aruco_marker_0
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/0.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_1
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/1.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_2
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/2.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_3
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/3.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_4
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/4.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_5
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/5.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_6
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/6.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_7
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/7.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_8
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/8.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_9
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/9.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_10
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/10.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_11
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/11.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_12
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/12.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_13
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/13.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_14
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/14.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_15
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/15.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_16
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/16.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_17
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/17.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_18
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/18.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_19
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/19.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_20
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/20.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_21
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/21.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_22
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/22.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_23
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/23.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_24
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/24.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_25
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/25.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_26
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/26.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_27
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/27.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_28
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/28.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_29
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/29.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_30
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/30.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_31
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/31.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_32
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/32.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_33
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/33.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_34
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/34.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_35
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/35.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_36
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/36.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_37
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/37.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_38
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/38.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_39
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/39.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_40
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/40.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_41
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/41.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_42
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/42.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_43
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/43.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_44
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/44.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_45
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/45.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_46
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/46.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_47
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/47.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_48
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/48.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_49
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/49.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material aruco_marker_50
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures4x4/50.png
+        scale 1 1
+      }
+    }
+  }
+}

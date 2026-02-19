@@ -1,0 +1,221 @@
+********************************************************************************
+*
+* Автоматизация создания описания мира
+*
+********************************************************************************
+ 
+model.world.xacro + common.world + macros.xacro => model.world
+
+Правим model.world.xacro, используя макросы, а затем вручную формируем итог - model.world
+
+Команда:
+$xacro model.world.xacro -o model.world
+
+Важно, чтоб были готовы все картинки (png) и все сценарии для всех кодов aruco.
+/gmod/polygones/mobot/models/aruco_markers/materials/scripts/aruco_marker.material
+
+Некторые готовые модели можно использовать так:
+
+    <include>
+      <name>spot_01</name>
+      <uri>model://spot</uri>
+      <pose>-1 -1 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>cylinder_01</name>
+      <uri>model://simplecylinder</uri>
+      <pose>0.675499 0.158803 0 0 -0 0</pose>
+    </include>
+
+    <include>
+      <name>box_03</name>
+      <uri>model://simplebox</uri>
+      <pose>0 0 0.1 1.57 0 0</pose>
+    </include>
+
+    <include>
+      <name>arucobox_40</name>
+      <uri>model://arucobox5x5_40</uri>
+      <pose>1.09337 -0.512652 0.1 0 0 0</pose>
+    </include>
+
+********************************************************************************
+*
+* Утилита map2world.py
+*
+********************************************************************************
+
+Формирует фрагмент файла описания мира и launch-файл для запуска модели
+
+Формат запуска:
+  --map mapfile
+  --inc worldfile
+  --launch launchfile
+  --ratio rat
+
+./map2world.py mapfile worldfile launchfile
+
+mapfile -- входной файл описания модели
+worldfile -- выходной файл описания мира. Использует макросы, описанные в macros.xacro
+launchfile -- выходной launch-файл
+rat -- коэффициент соответствия размеров модели Kvorum (в клетках) и размера поля в м. для Gazebo
+Например, если в map-файле указано "200 200" (200x200 клеток), то "--ratio 10" означает, что в Gazebo размеры полигона будут (200/10 x 200/10) = (20 x 20) м.
+
+Скрипт настроен на определенные форматы (и макросы) описания мира и модель робота
+Описание модели мира -- polygone_mobot
+Описание робота -- mobot_du
+
+Интегральный запуск генерации модели и launch-файла осуществляется скриптом mk.sh.
+
+Скрипт mk.sh:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#!/bin/bash
+
+mapfile=map1.map
+
+launchdir=`rospack find mobot_du`/launch
+scriptdir=`rospack find gmodctl`/scripts/utils
+
+echo "STEP 1"
+echo $mapfile '->' 
+echo "  world.inc"
+echo "  $launchdir/mobot.launch"
+
+
+$scriptdir/map2world.py $mapfile world.inc $launchdir/mobot.launch
+
+if [ $? -ne 0 ]
+then
+  echo "***"
+  echo "*** Error in map2world"
+  echo "***"
+  exit 1
+fi
+
+echo ""
+echo "STEP 2"
+echo model.world.xacro '->' model.world
+
+xacro model.world.xacro -o model.world
+if [ $? -ne 0 ]
+then
+  echo "***"
+  echo "*** Error in xacro"
+  echo "***"
+  exit 1
+fi
+
+echo "Done"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Пример входного файла map1.map
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;
+; Название проекта
+Project 1
+
+; Размер поля DIM_X DIM_Y
+20 20
+
+; Описание элементов
+; 0-9, a-f - ArUco-объекты
+; # - препятствие
+; Q - куб
+; R - цилиндр
+; S - пятно
+
+; Поле
+..........................................
+................................3.........
+..F........#..............................
+...........#...#...8..<...................
+...........#####..........................
+..........................................
+............QQ......#.....................
+....................#................S....
+............RR.....................SS.....
+..................................S.......
+..........................................
+..........................................
+......................2...................
+..........................................
+..........................................
+..........................................
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Пример выходного файла mobot.launch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<launch>
+
+  <arg name="ROBOT_MODEL_NAME" value="$(find mobot_du)"/>
+  <arg name="WORLD_MODEL_NAME" value="$(find polygone_mobot)"/>
+
+  <arg name="robot_name" default="mobot1"/>
+
+  <arg name="pos_x" default="2.75"/>
+  <arg name="pos_y" default="1.75"/>
+  <arg name="pos_z" default="0.25"/>
+
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+
+  <!--
+    Полигон
+  -->
+  <include file="$(arg WORLD_MODEL_NAME)/launch/world.launch"/>
+
+  <!--
+    Роботы
+    Set different initial poses to avoid collision when spawning the model
+  -->
+
+  <include file="$(arg ROBOT_MODEL_NAME)/launch/robot.launch">
+    <arg name="robot_name" value="mobot1"/>
+    <arg name="pos_x" value="0.4761904761904763"/>
+    <arg name="pos_y" value="5.0"/>
+    <arg name="pos_z" value="0.1"/>
+    <arg name="yaw" value="3.141592653589793"/>
+    <arg name="pitch" value="0"/>
+    <arg name="roll" value="0"/>
+  </include>
+</launch>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Пример выходного файла world.inc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?xml version="1.0" ?>
+<model xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobot">
+<!--
+=================================================================
+  This document was autogenerated by map2word from {ctl_mapname}
+  EDITING THIS FILE BY HAND IS NOT RECOMMENDED
+=================================================================
+Project: Project 1
+Source: map1.map
+Launch file: /home/karpov/ros/src/gmod/robots/mobot_du/launch/mobot.launch
+dimX = 20 dimY = 20
+step_x = 0.48 step_y = 1.25
+
+Robots positions
+  _RobotNum_ = 1
+  _RobotX_ = [0.476]
+  _RobotY_ = [5.0]
+  _RobotA_ = [180]
+-->
+
+<xacro:arucotower anum="3" size="${arucosize}" x="5.238" y="7.5"/>
+<xacro:arucotower anum="15" size="${arucosize}" x="-9.047" y="6.25"/>
+<xacro:manege x1="-4.761" y1="6.25" x2="-4.295" y2="7.49"/>
+<xacro:manege x1="-4.761" y1="5.0" x2="-4.295" y2="6.24"/>
+...
+<xacro:spot2 x="7.142" y="-1.25"/>
+<xacro:spot2 x="6.190" y="-2.5"/>
+<xacro:arucotower anum="2" size="${arucosize}" x="0.476" y="-6.25"/>
+
+</model>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

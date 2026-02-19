@@ -1,0 +1,54 @@
+<!--
+  YARP-13x Kvorum Project
+
+  rosserial
+  camera
+  aruco
+  //joystick
+
+  Можно запускать с аргументами:
+    //roslaunch yyctl yarp13.launch port:=/dev/ttyUSB1 rid:=1 device:=/dev/video0 jdevice:=/dev/input/js0
+    roslaunch yyctl yarp13.launch port:=/dev/ttyUSB1 rid:=1 device:=/dev/video0
+
+    "port"   - 
+    "rid"    -
+    "device" -
+
+    "msize"  - размер ArUco-маркера, м. (0.03)
+    "camang" -
+    "width"  - разрешение по горизонтали (800)
+-->
+
+<launch>
+  <arg name="port"   default="/dev/ttyUSB0"/>
+  <arg name="rid"    default=""/>
+  <arg name="device" default="/dev/video0"/>
+
+  <arg name="msize"  default="0.03"/>
+  <arg name="camang" default="120"/>
+  <arg name="width"  default="800"/>
+
+  <include file="$(find yyctl)/launch/rosserial.launch">
+    <arg name="port" default="$(arg port)"/>
+    <arg name="rid"  default="$(arg rid)"/>
+  </include>
+
+  <include file="$(find yyctl)/launch/cam.launch">
+    <arg name="device" value="$(arg device)" />
+    <arg name="rid"    value="$(arg rid)" />
+  </include>
+
+  <include file="$(find yyctl)/launch/aruco.launch">
+    <arg name="rid"    value="$(arg rid)" />
+    <arg name="msize"  default="$(arg msize)"/>
+    <arg name="camang" default="$(arg camang)"/>
+    <arg name="width"  default="$(arg width)"/>
+  </include>
+
+  <!--
+  <include file="$(find yyctl)/launch/joy.launch">
+    <arg name="jdevice" value="$(arg jdevice)" />
+  </include>
+  -->
+
+</launch>

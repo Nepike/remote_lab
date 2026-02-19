@@ -1,0 +1,45 @@
+<!--
+  aruco_server
+
+  aruco_server.py - -input /usb_cam/image_raw - -topic superlocator - -nowindow - -nooutput - -tmr tmr_value
+  (только уберите лишний пробел между '- -')
+
+  Аргументы:
+
+  "msize" - размер ArUco-маркера, м. (0.03)
+  "input" - имя входного топика (видео)
+  "topic" - имя выходного топика
+  "tmr"   - инерционность, такты
+  "rid"   - id робота
+  "camang"- угол зрения камеры (120)
+  "width" - ширина кадра (640)
+
+  roslaunch yyctl aruco.launch msize:=0.04
+
+optional arguments:
+  - -input inptopic  input topic name, example: /usb_cam/image_raw
+  - -topic outtopic  output topic name
+  - -cfg config      config file, default is "cfg/camera"
+  - -nowindow        use only console, without image window
+  - -nooutput        don't output
+  - -tmr             TMR value (default is 100)
+  - -camang          Camera angle, grad (default is 60)
+  - -width           Image width (default is 640)
+  - -msize           ArUco Marker size, m (default is 0.03)
+  - -rfreq           Ros Rate, Hz (default is 10)
+-->
+
+<launch>
+
+  <arg name="msize" default="0.03"/>
+  <arg name="topic" default="superlocator"/>
+  <arg name="tmr" default="10"/>
+  <arg name="rid" default=""/>
+  <arg name="camang" default="120"/>
+  <arg name="width" default="640"/>
+  <arg name="input" default="/usb_cam$(arg rid)/image_raw"/>
+
+  <node name="aruco_server_node$(arg rid)" pkg="yyctl" type="aruco_server.py" output="screen"
+        args="--input $(arg input) --topic $(arg topic)$(arg rid) --nowindow --tmr $(arg tmr) --camang $(arg camang) --msize $(arg msize) --width $(arg width)" />
+
+</launch>

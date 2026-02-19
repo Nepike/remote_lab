@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="ROBOT_MODEL_NAME" value="$(find ideal1)"/>
+  <arg name="WORLD_MODEL_NAME" value="$(find polygone_plan2)"/>
+
+  <arg name="robot_name" default="mobot1"/>
+
+  <arg name="pos_x" default="2.75"/>
+  <arg name="pos_y" default="1.75"/>
+  <arg name="pos_z" default="0.25"/>
+
+  <!--
+    Полигон
+  -->
+  <include file="$(arg WORLD_MODEL_NAME)/launch/world.launch"/>
+
+  <!--
+    Робот
+  -->
+  <include file="$(arg ROBOT_MODEL_NAME)/launch/robot.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="pos_x" value="$(arg pos_x)"/>
+    <arg name="pos_y" value="$(arg pos_y)"/>
+    <arg name="pos_z" value="$(arg pos_z)"/>
+  </include>
+
+</launch>

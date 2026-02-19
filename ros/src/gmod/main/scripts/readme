@@ -1,0 +1,32 @@
+Основной запускаемый скрипт -- ctl.py
+Настройки (имена датчиков и соответствующие им названия топиков) он берет из конфигурационного файла ctl.cfg
+
+
+1. "Стандартные" топики (типы данных):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+from geometry_msgs.msg import Twist
+
+from sensor_msgs.msg import Joy as TJoystick
+
+from sensor_msgs.msg import Imu
+from sensor_msgs.msg import Range
+
+
+2. "Нестандартные" топики (типы данных), из yarp13:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+from msg_yy.msg import sens as yy_sens
+from msg_yy.msg import cmd as yy_cmd
+
+
+3. "Нестандартные" библиотеки:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Лежат в ../lib
+
+quat_euler.py y13cmd.py
+
+Путь к этой библиотеке прописан в программе явно (строка 28):
+sys.path.insert(0, "/home/karpov/ros/src/gmod/ctl/scripts/lib")
+
+4. Возможно, дополнительно надо будет установть некторые пакеты
+(например, configparser)
+pip install configparser

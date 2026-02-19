@@ -1,0 +1,9 @@
+
+$roslaunch mobot_du mobot.launch
+
+$roslaunch gmodctl servolocator.launch 
+
+$roslaunch gmodctl aruco.launch 
+
+$roslaunch gmodctl rctl.launch
+
