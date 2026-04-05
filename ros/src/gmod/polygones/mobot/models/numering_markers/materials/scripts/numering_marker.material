@@ -1,0 +1,765 @@
+
+material numering_marker_0
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/0.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_1
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/1.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_2
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/2.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_3
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/3.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_4
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/4.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_5
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/5.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_6
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/6.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_7
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/7.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_8
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/8.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_9
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/9.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_10
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/10.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_11
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/11.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_12
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/12.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_13
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/13.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_14
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/14.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_15
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/15.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_16
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/16.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_17
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/17.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_18
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/18.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_19
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/19.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_20
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/20.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_21
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/21.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_22
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/22.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_23
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/23.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_24
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/24.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_25
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/25.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_26
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/26.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_27
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/27.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_28
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/28.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_29
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/29.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_30
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/30.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_31
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/31.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_32
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/32.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_33
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/33.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_34
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/34.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_35
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/35.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_36
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/36.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_37
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/37.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_38
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/38.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_39
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/39.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_40
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/40.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_41
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/41.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_42
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/42.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_43
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/43.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_44
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/44.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_45
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/45.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_46
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/46.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_47
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/47.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_48
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/48.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_49
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/49.png
+        scale 1 1
+      }
+    }
+  }
+}
+
+material numering_marker_50
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/50.png
+        scale 1 1
+      }
+    }
+  }
+}

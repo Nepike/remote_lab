@@ -1,0 +1,13 @@
+<!--
+  camera
+  rosserial_python
+  aruco2
+-->
+
+<launch>
+
+  <include file="$(find yyctl)/launch/cam.launch" />
+  <include file="$(find yyctl)/launch/rosserial.launch" />
+  <include file="$(find yyctl)/launch/aruco2.launch" />
+
+</launch>

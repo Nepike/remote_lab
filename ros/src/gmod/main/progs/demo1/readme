@@ -1,0 +1,24 @@
+
+1. Отредактировать /config/room.map
+
+2. Построить соответствующее описание Gazobo-модели
+./mod-build-gazebo-model.sh
+
+3. Запустить модель
+./mod-start-model.sh
+Модель использует свои топики, поэтому ее надо увязать с системой Kvorum, используя согласователь топиков bridge
+
+4. Остановить управляющую программу (остальные модельные)
+./mod-stop-model.sh
+
+
+
+
+$roslaunch mobot_du mobot.launch
+
+$roslaunch gmodctl servolocator.launch
+
+$roslaunch gmodctl aruco.launch
+
+$roslaunch gmodctl rctl.launch
+

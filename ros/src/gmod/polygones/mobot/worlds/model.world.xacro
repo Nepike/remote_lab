@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<!--
+  01.01.2024, 16.12.2024
+  LP 02.03.2025
+-->
+
+<sdf version="1.4" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<world name="default">
+
+<!-- ======================================================================= -->
+<!--                                                                         -->
+<!-- ======================================================================= -->
+
+<xacro:arg name="cellsize" default="0.3" />
+
+<xacro:property name="PI" value="3.1415926535897931"/>
+
+<xacro:property name="SimpleBoxSize" value="0.3"/>
+<xacro:property name="ArucoBoxSize" value="0.3"/>
+<xacro:property name="CylRadius" value="${$(arg cellsize)/2}"/>
+<xacro:property name="CylLength" value="0.3"/>
+<xacro:property name="SpotRadius" value="$(arg cellsize)/2"/>
+
+<xacro:property name="WallHeight" value="0.3"/>
+<xacro:property name="WallWidth" value="0.1"/>
+<xacro:property name="WallLength" value="10"/>
+
+<!-- Тип ArUco-маркера: 5x5 или 4x4-->
+<xacro:property name="ArucoType" value="4x4"/>
+
+<xacro:include filename="$(find polygone_mobot)/worlds/macros.xacro" />
+<xacro:include filename="$(find polygone_mobot)/worlds/common.world" />
+
+<!-- ======================================================================= -->
+<!-- Examples:                                                               -->
+<!-- ======================================================================= -->
+<!--
+<xacro:spot2 x="-5" y="-5"/>
+<xacro:cyl2 x="6" y="6"/>
+<xacro:box2 x="0" y="-7"/>
+<xacro:arucobox2 anum="1" artype="${ArucoType}" x="1" y="0"/>
+<xacro:arucotower anum="8" artype="${ArucoType}" x="-4" y="4"/>
+<xacro:wall x="0" y="${WallLength/2}" a = "0" wlen="${WallLength}"/>
+<xacro:manege x1="-10" y1="-3" x2="10" y2="3"/>
+<xacro:numeringbox anum="12" size="${SimpleBoxSize}" x="1" y="1"/>
+-->
+
+<!-- ======================================================================= -->
+<!--  include world`s description                                            -->
+<!-- ======================================================================= -->
+
+<xacro:include filename="$(find polygone_mobot)/worlds/world.inc" />
+
+</world>
+
+</sdf>
+

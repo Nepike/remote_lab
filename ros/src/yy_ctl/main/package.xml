@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>yyctl</name>
+  <version>0.1.0</version>
+  <description>yy ctl
+  </description>
+
+  <maintainer email="noname@gmail.com">Robofob</maintainer>
+
+  <license>BSD</license>
+
+  <author email="noname@gmail.com">Robofob</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend>
+
+</package>

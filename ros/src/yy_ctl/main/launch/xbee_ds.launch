@@ -1,0 +1,22 @@
+<!--
+  xbee_data_server
+
+  Аргументы:
+
+  "rid"  - id устройства
+  "port"- имя порта для XBee
+
+  xbee_data_server.py - -device /dev/ttyUSB0 - -addr 1
+  (только уберите лишний пробел между '- -')
+
+-->
+
+<launch>
+
+  <arg name="rid" default="1"/>
+  <arg name="port" default="/dev/ttyUSB0"/>
+
+  <node name="xbee_data_server_node$(arg rid)" pkg="yyctl" type="xbee_data_server.py" output="screen"
+        args="--device $(arg port) --addr $(arg rid)" />
+
+</launch>

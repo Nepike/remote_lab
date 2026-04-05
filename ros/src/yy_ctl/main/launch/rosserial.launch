@@ -1,0 +1,25 @@
+<!--
+  Запуск rosserial_python
+  По умолчанию работаем с портом port=/dev/ttyUSB0, rid=''
+  Можно запускать с аргументами:
+    roslaunch yyctl rosserial.launch port:=/dev/ttyUSB1 rid:=1
+-->
+
+<launch>
+
+  <arg name="port" default="/dev/ttyUSB0"/>
+  <arg name="rid" default=""/>
+
+  <remap if="$(eval rid!='')" from="servolocator" to="servolocator$(arg rid)" />
+  <remap if="$(eval rid!='')" from="yy_sensors"   to="yy_sensors$(arg rid)" />
+  <remap if="$(eval rid!='')" from="cmd_vel"      to="cmd_vel$(arg rid)" />
+  <remap if="$(eval rid!='')" from="yy_command"   to="yy_command$(arg rid)" />
+
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node$(arg rid)">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="57600"/>
+    <param name="rid"  value="$(arg rid)"/>
+  </node>
+
+</launch>
+

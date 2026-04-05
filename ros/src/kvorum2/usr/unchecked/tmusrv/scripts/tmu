@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CDIR=~/ros
+
+rosrun tmusrv tmusrv $CDIR/etc/kvorum/robot.xml $CDIR/etc/kvorum/needs.ini

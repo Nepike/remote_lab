@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SDIR=`pwd`
+CFGDIR=~/ros/src/kvorum/temper/config
+
+RUN()
+{
+  konsole -p tabtitle="$1 -- $2" -p TerminalRows=27 -p TerminalColumns=91 -e rosrun $1 $2 $3 $4 $5 $6 $7 $8 $9
+  echo "Wait... "
+  sleep 2
+  echo "Done."
+}
+
+#
+# kvorum.v
+#
+RUN temper gbp.v
+
+#
+# kvorum_m
+#
+RUN temper gbp.m
+
+#
+#
+#
+wmctrl  -a "mc"
+wmctrl  -a "Kvorum_V"
+
+cd ~/ros
+
+$SDIR/gbp.py $CFGDIR/env.ctl $CFGDIR/map.ctl $CFGDIR/agents.ctl  $1 $2 $3 $4 $5 $6 $7 $8 $9
+
+rosnode kill kvorum_m
+rosnode kill kvorum_v

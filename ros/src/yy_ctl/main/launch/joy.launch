@@ -1,0 +1,12 @@
+<!--
+  joy_node
+  Джойстик
+  Можно запускать с аргументами:
+    roslaunch yyctl joy.launch jdevice:=/dev/input/js0
+-->
+
+<launch>
+  <arg name="jdevice" default="/dev/input/js0"/>
+  <param name="joy_node" value="$(arg jdevice)" />
+  <node name="joy_node" pkg="joy" type="joy_node" />
+</launch>

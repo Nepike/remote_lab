@@ -1,0 +1,13 @@
+material aruco_example{ 
+       technique 
+       { 
+         pass 
+         { 
+           texture_unit 
+           { 
+             texture ../textures/aruco_example.png 
+             scale 1 1 
+             } 
+         }    
+       } 
+     }

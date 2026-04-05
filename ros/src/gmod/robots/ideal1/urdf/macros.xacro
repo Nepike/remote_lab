@@ -1,0 +1,271 @@
+<?xml version='1.0'?>
+<!--
+
+  Макросы для модели
+  LP 14.03.2025
+
+-->
+
+<model xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobot">
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Инерция                                                                                            -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+
+<xacro:macro name="cylinder_inertia" params="m r h">
+  <inertia ixx="${m*(3*r*r+h*h)/12}" iyy="${m*(3*r*r+h*h)/12}" izz="${m*r*r/2}" ixy="0" ixz="0" iyz="0" />
+</xacro:macro>
+
+<xacro:macro name="box_inertia" params="m x y z">
+  <inertia ixx="${m*(y*y+z*z)/12}" iyy="${m*(x*x+z*z)/12}" izz="${m*(x*x+y*y)/12}" ixy="0" ixz="0" iyz="0" />
+</xacro:macro>
+
+<xacro:macro name="sphere_inertia" params="m r">
+  <inertia ixx="${2*m*r*r/5}" iyy="${2*m*r*r/5}" izz="${2*m*r*r/5}" ixy="0" ixz="0" iyz="0" />
+</xacro:macro>
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!--  Колеса                                                                                            -->
+<!--  Параметры: name: "left_wheel" или "rigth_wheel", tY - смещение по оси Y, 1 - левое, -1 - правое    -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+<xacro:macro name="wheel2" params="name tY">
+  <link name="${name}">
+    <collision>
+      <geometry>
+        <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+        <!-- <mesh filename="${meshesPath}/wheel.dae" scale="5.0 5.0 5.0"/> -->
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <inertial>
+      <mass value="${wheelMass}" />
+      <origin xyz="0 0 0" />
+      <xacro:cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}" />
+    </inertial>
+  </link>
+  <joint name="${name}_joint" type="continuous">
+    <parent link="chassis"/>
+    <child link="${name}"/>
+    <origin xyz="${chassisLength/3} ${(tY)*(wheelWidth+chassisWidth/2)} ${(-chassisHeight/3)}" rpy="${-PI/2} 0 0" />
+    <axis xyz="0 0 1"/>
+  </joint>
+  <gazebo reference="$name">
+    <mu1>100.0</mu1>
+    <mu2>100.0</mu2>
+    <kp>10000000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+
+</xacro:macro>
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Контактный датчик                                                                                  -->
+<!--                                                                                                    -->
+<!-- Параметры: name: "bumper_left" или "bumper_rigth", tY - смещение по оси Y, 1 - левый, 1 - правый   -->
+<!-- https://classic.gazebosim.org/tutorials?tut=contact_sensor&cat=sensors                             -->
+<!-- $gz topic -l                                                                                       -->
+<!-- /gazebo/default/mobot/base_footprint/bumper_left_sens                                              -->
+<!-- /gazebo/default/mobot/base_footprint/bumper_left_sens/contacts                                     -->
+<!-- /gazebo/default/mobot/base_footprint/bumper_right_sens                                             -->
+<!-- /gazebo/default/mobot/base_footprint/bumper_right_sens/contacts                                    -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+<xacro:macro name="bumper" params="name size tY">
+
+  <gazebo reference="${name}">
+    <material>Gazebo/Orange</material>
+    <sensor type="contact" name="contact_sensor_${name}">
+      <update_rate>100.0</update_rate>
+      <always_on>1</always_on>
+      <contact>
+        <collision>bumper_collision</collision>
+        <!-- <topic>$(arg robot_name)/sensors/${name}</topic> -->
+      </contact>
+      <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>100.0</updateRate>
+        <bumperTopicName>$(arg robot_name)/sensors/${name}</bumperTopicName>
+        <frameName>${name}</frameName>
+        
+            <ros>
+                <namespace>demo</namespace>
+                <remapping>bumper_states:=bumper_demo</remapping>
+            </ros>
+            
+      </plugin>
+    </sensor>
+  </gazebo>
+    <collision name="bumper_collision">
+      <geometry> <box size="${size*2} ${size} ${size}" /> </geometry>
+    </collision>
+
+  <link name="${name}">
+    <collision name="${name}_collision">
+      <geometry> <box size="${size*2} ${size} ${size}" /> </geometry>
+    </collision>
+    <visual name="${name}_visual">
+      <geometry> <box size="${size*2} ${size} ${size}" /> </geometry>
+    </visual>
+  </link>
+
+  <joint name="${name}_joint" type="fixed">
+    <origin xyz="${chassisLength/2+size+0.1} ${tY*3/4*chassisWidth/2} ${-chassisHeight/4}" rpy="0 0 0" />
+    <parent link="chassis"/>
+    <child link="${name}" />
+  </joint>
+
+</xacro:macro>
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Дальномеры                                                                                         -->
+<!--                                                                                                    -->
+<!-- $gz topic -l                                                                                       -->
+<!-- /gazebo/default/mobot/base_footprint/usonic_left_sens/scan                                         -->
+<!-- /gazebo/default/mobot/base_footprint/usonic_right_sens/scan                                        -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+
+<xacro:macro name="usonic" params="name u_height u_rad xyz rpy">
+  <link name="${name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <!-- <geometry> <cylinder length="${u_height}" radius="${u_rad}" /> </geometry> -->
+      <geometry> <box size="${u_height} ${u_rad} ${u_rad}" /> </geometry>
+    </visual>
+  </link>
+
+  <joint name="${name}_joint" type="fixed">
+    <origin xyz="${xyz}" rpy="${rpy}" />
+    <parent link="chassis"/>
+    <child link="${name}" />
+  </joint>
+
+  <link name="${name}_vizvirt">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry> <sphere radius="${u_rad/2}" /> </geometry>
+    </visual>
+  </link>
+
+  <joint name="${name}_joint_vizvirt" type="fixed">
+    <origin xyz="${u_height/2} 0 0" rpy="0 0 0" />
+    <parent link="${name}"/>
+    <child link="${name}_vizvirt" />
+  </joint>
+
+  <gazebo reference="${name}">
+    <material>Gazebo/Yellow</material>
+    <!-- http://sdformat.org/spec?elem=sensor -->
+    <sensor name="${name}_sens" type="ray">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>5</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>5</samples>
+            <resolution>1.000000</resolution>
+            <min_angle>-0.12</min_angle>
+            <max_angle>0.12</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>5</samples>
+            <resolution>1.000000</resolution>
+            <min_angle>-0.01</min_angle>
+            <max_angle>0.01</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.02</min>
+          <max>4</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <!--
+      <plugin name="ultrasonic_sensor_1" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=${name}_ultrasonic_sensor</remapping>
+        </ros>
+        <output_type>sensor_msgs/Range</output_type>
+        <radiation_type>ultrasound</radiation_type>
+        <frame_name>${name}</frame_name>
+      </plugin>
+      -->
+      <plugin name="gazebo_ros_sonar_${name}_controller" filename="libhector_gazebo_ros_sonar.so">
+        <updateRate>30</updateRate>
+        <gaussianNoise>0.005</gaussianNoise>
+        <topicName>$(arg robot_name)/sensors/${name}</topicName>
+        <frameId>${name}</frameId>
+        <radiation_type>ultrasound</radiation_type>
+      </plugin>
+
+    </sensor>
+  </gazebo>
+</xacro:macro>
+
+
+<!-- ================================================================================================== -->
+<!--                                                                                                    -->
+<!-- Камера (800x600, 640x480)                                                                          -->
+<!--                                                                                                    -->
+<!-- ================================================================================================== -->
+<gazebo reference="camera_link">
+  <!-- Добавляем сенсор. Примеры: http://gazebosim.org/tutorials?tut=sensor_noise&cat=sensors -->
+  <sensor type="camera" name="camera1">
+    <update_rate>30.0</update_rate>
+    <camera name="head">
+      <horizontal_fov>1.04</horizontal_fov>
+      <image>
+        <width>800</width>
+        <height>600</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.1</near>
+        <far>50</far>
+      </clip>
+    </camera>
+    <!--
+      Добавление плагина подключения камеры
+
+      update_rate: как часто будут поступать данные
+      width/height: разрешение снимков. В данном случае - 640x480.
+      format: формат видео (R8G8B8).
+      imageTopicName: имя топика, куда будут посылаться данные
+      frameName: link-связь, к которой будет привязана камера.
+    -->
+    <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>0</updateRate>
+      <cameraName>/$(arg robot_name)/camera1</cameraName>
+      <imageTopicName>image_raw</imageTopicName>
+      <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+      <frameName>camera_link</frameName>
+      <hackBaseline>0.07</hackBaseline>
+      <distortionK1>0.0</distortionK1>
+      <distortionK2>0.0</distortionK2>
+      <distortionK3>0.0</distortionK3>
+      <distortionT1>0.0</distortionT1>
+      <distortionT2>0.0</distortionT2>
+    </plugin>
+  </sensor>
+</gazebo>
+
+</model>

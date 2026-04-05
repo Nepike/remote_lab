@@ -1,0 +1,14 @@
+<!--
+  Запуск lce - local comm emulator
+  Аргумент - имя конфигурационного файла
+-->
+
+<launch>
+
+  <arg name="cfg" default="$(find gmodctl)/scripts/config/robot.cfg" />
+
+  <node name="lce_node" pkg="gmodctl" type="lce.py" output="screen"
+              args="--cfg $(arg cfg)">
+  </node>
+
+</launch>

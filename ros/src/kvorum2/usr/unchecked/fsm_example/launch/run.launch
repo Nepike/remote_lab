@@ -1,0 +1,20 @@
+<launch>
+    <node name="ants_fsm_example" pkg="fsm_example" type="fsm_ants_node.py"
+        output="screen" clear_params="true">
+        <param name="log_config" type="str" value="$(find fsm_example)/share/logging.yaml"/>
+        <param name="robots_num" type="int" value="1" />
+        <env name="PYTHONPATH" value="$(optenv PYTHONPATH):($env HOME)/ros/src/kvorum/pylib"/>
+    </node>
+
+    <node name="kvorum_v" pkg="kvorum_v" type="vmain.py"
+        output="screen" clear_params="true"
+        launch-prefix="konsole --hold -e ">
+        <env name="PYTHONPATH" value="$(optenv PYTHONPATH):($env HOME)/ros/src/kvorum/pylib"/>
+    </node>
+
+    <node name="kvorum_m" pkg="kvorum_m" type="mmain.py"
+        output="screen" clear_params="true"
+        launch-prefix="konsole --hold -e ">
+        <env name="PYTHONPATH" value="$(optenv PYTHONPATH):($env HOME)/ros/src/kvorum/pylib"/>
+    </node>
+</launch>

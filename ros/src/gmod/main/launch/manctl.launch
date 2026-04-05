@@ -1,0 +1,14 @@
+<!--
+  Запуск manctl-curs
+  manctl-curs.py
+  аргумент - robot id (1,2,...)
+-->
+
+<launch>
+
+  <arg name="rid" default="1" />
+
+  <node name="gmodctl_node" pkg="gmodctl" type="manctl-curs.py" output="screen"
+    args="--rid $(arg rid) --cfg $(find gmodctl)/scripts/config/robot.cfg" />
+
+</launch>

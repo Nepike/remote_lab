@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Установка параметров порта
+./sp /dev/ttyUSB0
+
+#
+#
+#
+konsole -p tabtitle="ArdSrv" -p TerminalRows=15 -p TerminalColumns=50 -e rosrun ardsrv ardsrv ardsrv.ini
+echo "Wait... "
+sleep 2
+echo "Done."
+
+#
+#
+#
+MODULE=tmu
+
+SDIR=`pwd`
+CFGDIR=$SDIR/config
+
+wmctrl  -a "mc"
+wmctrl  -a "Kvorum_V"
+
+$SDIR/$MODULE.py $CFGDIR/env.ctl $CFGDIR/map.ctl $CFGDIR/agents.ctl
+
+#
+rosnode kill ardsrv

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <name>mobilization_ants</name>
+  <version>0.0.0</version>
+  <description>Ants mobilization Kvorum simulation</description>
+
+  <maintainer email="rovboma@gmail.com">Maxim Rovbo</maintainer>
+
+  <license>BSD</license>
+
+  <author email="rovboma@gmail.com">Maxim Rovbo</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>msg_kvorum</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>  
+  <run_depend>msg_kvorum</run_depend>
+
+</package>

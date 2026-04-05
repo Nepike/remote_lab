@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>msg_object_cloud</name>
+  <version>0.0.0</version>
+  <description>The msg_object_cloud package</description>
+
+  <maintainer email="rovboma@gmail.com">Maxim Rovbo</maintainer>
+
+  <license>BSD</license>
+
+	<buildtool_depend>catkin</buildtool_depend>
+	<depend>message_generation</depend>
+	<depend>message_runtime</depend>
+	<depend>geometry_msgs</depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

@@ -1,0 +1,21 @@
+<!--
+  Запуск yy
+  
+  manctl.py
+  joystick
+  
+  Можно запускать с аргументами:
+    roslaunch yyctl manctl.launch jdevice:=/dev/input/js0
+-->
+
+<launch>
+
+  <arg name="jdevice" default="/dev/input/js0"/>
+
+  <node name="manctl_node" pkg="yyctl" type="manctl.py" />
+
+  <include file="$(find yyctl)/launch/joy.launch">
+    <arg name="jdevice" value="$(arg jdevice)" />
+  </include>
+
+</launch>

@@ -1,0 +1,349 @@
+<FSM name="ObstacleAvoidance">
+  <StartingState>Init</StartingState>
+  <States>
+    <State>Obst</State>
+    <State>Init</State>
+    <State>Q11</State>
+    <State>Q12</State>
+    <State>Q13</State>
+    <State>Q21</State>
+    <State>Q22</State>
+    <State>R</State>
+    <State>R1</State>
+    <State>R2</State>
+    <State>Q31</State>
+    <State>Q32</State>
+    <State>Q33</State>
+    <State>PreT</State>
+    <State>T</State>
+  </States>
+  <TerminalStates>
+    <State>T</State>
+  </TerminalStates>
+  <Rules>
+    <Rule>
+      <Source>Init</Source>
+      <Destination>Obst</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.MAX_ALIVE = 100; self.TTurnObst = 10; self.TGoObstFwd = 10; self.TGoObstBack = 3</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obst</Source>
+      <Destination>Q11</Destination>
+      <Condition>self.isObstRight()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obst</Source>
+      <Destination>Q21</Destination>
+      <Condition>self.isObstFwd()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obst</Source>
+      <Destination>Q31</Destination>
+      <Condition>self.isObstLeft()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obst</Source>
+      <Destination>T</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Obst</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q11</Source>
+      <Destination>Q11</Destination>
+      <Condition>self.isObstRight()</Condition>
+      <Procedure>self.turnLeft()</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q11</Source>
+      <Destination>Q12</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q11</Source>
+      <Destination>Obst</Destination>
+      <Condition>self.isObstLeft()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q11</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q12</Source>
+      <Destination>Q12</Destination>
+      <Condition>self.T &lt; self.TGoObstFwd</Condition>
+      <Procedure>self.goFwd(); self.T += 1;</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q12</Source>
+      <Destination>Q13</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q12</Source>
+      <Destination>Obst</Destination>
+      <Condition>self.isObstLeft() or self.isObstRight() or self.isObstFwd()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q12</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q13</Source>
+      <Destination>Q13</Destination>
+      <Condition>self.T &lt; self.TTurnObst</Condition>
+      <Procedure>self.turnRight(); self.T += 1;</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q13</Source>
+      <Destination>Obst</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q13</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q21</Source>
+      <Destination>Q21</Destination>
+      <Condition>self.isObstFwd() and not self.isObstCloseBehind()</Condition>
+      <Procedure>self.goBack()</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q21</Source>
+      <Destination>Q22</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0;</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q21</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q22</Source>
+      <Destination>Q22</Destination>
+      <Condition>(self.T &lt; self.TGoObstBack) and not self.isObstCloseBehind()</Condition>
+      <Procedure>self.goBack(); self.T += 1;</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q22</Source>
+      <Destination>R</Destination>
+      <Condition>self.T &gt;= self.TGoObstBack</Condition>
+      <Procedure>self.T = 0;</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q22</Source>
+      <Destination>Q22</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.goStop(); self.T += 1</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q22</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>R1</Destination>
+      <Condition>self.rand(2) == 0</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>R2</Destination>
+      <Condition>self.rand(2) == 1</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <!-- if random checks fail, return to the same state and do it again (since rand rerolls each
+         time a condition is checked in each separate rule) -->
+    <Rule>
+      <Source>R</Source>
+      <Destination>R</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>R1</Source>
+      <Destination>R1</Destination>
+      <Condition>self.T &lt; self.TTurnObst</Condition>
+      <Procedure>self.turnLeft(); self.T += 1</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>R1</Source>
+      <Destination>Obst</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.goFwd()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R1</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>R2</Source>
+      <Destination>R2</Destination>
+      <Condition>self.T &lt; self.TTurnObst</Condition>
+      <Procedure>self.turnRight(); self.T += 1</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>R2</Source>
+      <Destination>Obst</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.goFwd()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>R2</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q31</Source>
+      <Destination>Q31</Destination>
+      <Condition>self.isObstLeft()</Condition>
+      <Procedure>self.turnRight()</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q31</Source>
+      <Destination>Q32</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q31</Source>
+      <Destination>Obst</Destination>
+      <Condition>self.isObstRight()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>4</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q31</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q32</Source>
+      <Destination>Q32</Destination>
+      <Condition>self.T &lt; self.TGoObstFwd</Condition>
+      <Procedure>self.goFwd(); self.T += 1;</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q32</Source>
+      <Destination>Q33</Destination>
+      <Condition>else</Condition>
+      <Procedure>self.T = 0</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q32</Source>
+      <Destination>Obst</Destination>
+      <Condition>self.isObstLeft() or self.isObstRight() or self.isObstFwd()</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q32</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q33</Source>
+      <Destination>Q33</Destination>
+      <Condition>self.T &lt; self.TTurnObst</Condition>
+      <Procedure>self.turnLeft(); self.T += 1;</Procedure>
+      <Priority>3</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q33</Source>
+      <Destination>Obst</Destination>
+      <Condition>else</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>2</Priority>
+    </Rule>
+    <Rule>
+      <Source>Q33</Source>
+      <Destination>PreT</Destination>
+      <Condition>self.steps_counter > self.MAX_ALIVE</Condition>
+      <Procedure>pass</Procedure>
+      <Priority>0</Priority>
+    </Rule>
+    <Rule>
+      <Source>PreT</Source>
+      <Destination>T</Destination>
+      <Condition>True</Condition>
+      <Procedure>self.goStop()</Procedure>
+      <Priority>1</Priority>
+    </Rule>
+  </Rules>
+</FSM>
