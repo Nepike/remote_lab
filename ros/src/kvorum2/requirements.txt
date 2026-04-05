@@ -1,2 +1,0 @@
-accessify
-opencv-contrib-python
